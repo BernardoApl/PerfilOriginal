@@ -20,11 +20,13 @@ section {
     scroll-behavior: smooth;
   }
 
-  body {
+ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    color: var(--text-color);
-  }
+    color: var(--light-color); /* texto claro para contraste */
+    background-color: #000; /* fundo preto */
+}
+
 
   .container {
     max-width: 1200px;
