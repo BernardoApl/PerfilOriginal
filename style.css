@@ -6,8 +6,9 @@
   }
 section {
     padding: 80px 0;
-    background-color: #000; /* Fundo preto para todas as seções */
+    background-color: #000; /* fundo preto para cada seção */
 }
+
 
   :root {
     --primary-color: #ff0000; /* ou outro destaque */
