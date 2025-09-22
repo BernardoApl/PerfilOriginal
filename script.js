@@ -1,358 +1,743 @@
-// Initialize Typed.js
-const typed = new Typed('#typed', {
-    strings: ['Desenvolvedor Web','Designer UI/UX','Entusiasta de Design Digital'],
-    typeSpeed: 70,
-    backSpeed: 50,
-    loop: true
-});
+// Configuration
+const CONFIG = {
+  GITHUB_USERNAME: "BernardoApl",
+  EMAILJS_PUBLIC_KEY: "RQ1dSXDL1URKXCGsG",
+  EMAILJS_SERVICE_ID: "service_mq054m8",
+  EMAILJS_TEMPLATE_ID: "template_lf5n7os",
+  TYPED_STRINGS: [
+    "Desenvolvimento Java",
+    "Engenharia de Software",
+    "Banco de Dados MySQL",
+    "Automação com n8n",
+    "Soluções Full-Stack",
+  ],
+}
 
+// State management
+const state = {
+  projectsLoaded: false,
+  skillsAnimated: false,
+  statsAnimated: false,
+  currentFilter: "all",
+}
 
-  // Mobile Menu Toggle
-  const menuToggle = document.querySelector('.menu-toggle');
-  const navItems = document.querySelector('.nav-items');
+// Declare Typed and emailjs variables
+let Typed
+let emailjs
 
-  menuToggle.addEventListener('click', () => {
-    navItems.classList.toggle('active');
-  });
+class PortfolioApp {
+  constructor() {
+    this.init()
+  }
 
-  // Smooth Scrolling for Navigation Links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
+  async init() {
+    // Show loading screen
+    this.showLoadingScreen()
 
-      const targetId = this.getAttribute('href');
-      const targetElement = document.querySelector(targetId);
+    // Initialize components
+    await this.initializeComponents()
 
-      window.scrollTo({
-        top: targetElement.offsetTop - 70,
-        behavior: 'smooth'
-      });
+    // Hide loading screen
+    this.hideLoadingScreen()
 
-      // Update active link
-      document.querySelectorAll('.nav-items a').forEach(link => link.classList.remove('active'));
-      this.classList.add('active');
+    // Setup event listeners
+    this.setupEventListeners()
 
-      // Close mobile menu if open
-      if (navItems.classList.contains('active')) {
-        navItems.classList.remove('active');
+    // Initialize animations
+    this.initializeAnimations()
+  }
+
+  showLoadingScreen() {
+    const loadingScreen = document.getElementById("loading-screen")
+    if (loadingScreen) {
+      loadingScreen.style.display = "flex"
+    }
+  }
+
+  hideLoadingScreen() {
+    const loadingScreen = document.getElementById("loading-screen")
+    if (loadingScreen) {
+      setTimeout(() => {
+        loadingScreen.classList.add("hidden")
+        setTimeout(() => {
+          loadingScreen.style.display = "none"
+        }, 500)
+      }, 1000)
+    }
+  }
+
+  async initializeComponents() {
+    // Initialize Typed.js
+    this.initTypedJS()
+
+    // Initialize EmailJS
+    this.initEmailJS()
+
+    // Create particles
+    this.createParticles()
+
+    // Load GitHub projects
+    await this.loadGitHubProjects()
+  }
+
+  initTypedJS() {
+    if (typeof Typed !== "undefined") {
+      new Typed("#typed", {
+        strings: CONFIG.TYPED_STRINGS,
+        typeSpeed: 70,
+        backSpeed: 50,
+        backDelay: 2000,
+        loop: true,
+        showCursor: true,
+        cursorChar: "|",
+      })
+    }
+  }
+
+  initEmailJS() {
+    if (typeof emailjs !== "undefined") {
+      emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY)
+    }
+  }
+
+  setupEventListeners() {
+    // Mobile menu toggle
+    this.setupMobileMenu()
+
+    // Smooth scrolling
+    this.setupSmoothScrolling()
+
+    // Scroll events
+    this.setupScrollEvents()
+
+    // Contact form
+    this.setupContactForm()
+
+    // Project filters
+    this.setupProjectFilters()
+
+    // Back to top button
+    this.setupBackToTop()
+
+    // Window resize
+    window.addEventListener("resize", () => {
+      this.createParticles()
+    })
+  }
+
+  setupMobileMenu() {
+    const menuToggle = document.querySelector(".menu-toggle")
+    const navItems = document.querySelector(".nav-items")
+
+    if (menuToggle && navItems) {
+      menuToggle.addEventListener("click", () => {
+        menuToggle.classList.toggle("active")
+        navItems.classList.toggle("active")
+      })
+
+      // Close menu when clicking on links
+      navItems.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          menuToggle.classList.remove("active")
+          navItems.classList.remove("active")
+        })
+      })
+
+      // Close menu when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!menuToggle.contains(e.target) && !navItems.contains(e.target)) {
+          menuToggle.classList.remove("active")
+          navItems.classList.remove("active")
+        }
+      })
+    }
+  }
+
+  setupSmoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", (e) => {
+        e.preventDefault()
+
+        const targetId = anchor.getAttribute("href")
+        const targetElement = document.querySelector(targetId)
+
+        if (targetElement) {
+          const headerHeight = document.querySelector("header").offsetHeight
+          const targetPosition = targetElement.offsetTop - headerHeight
+
+          window.scrollTo({
+            top: targetPosition,
+            behavior: "smooth",
+          })
+
+          // Update active nav link
+          this.updateActiveNavLink(targetId)
+        }
+      })
+    })
+
+    // Handle scroll indicator
+    const scrollIndicator = document.querySelector(".scroll-indicator")
+    if (scrollIndicator) {
+      scrollIndicator.addEventListener("click", () => {
+        const aboutSection = document.querySelector("#about")
+        if (aboutSection) {
+          aboutSection.scrollIntoView({ behavior: "smooth" })
+        }
+      })
+    }
+  }
+
+  setupScrollEvents() {
+    let ticking = false
+
+    window.addEventListener("scroll", () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          this.handleScroll()
+          ticking = false
+        })
+        ticking = true
       }
-    });
-  });
+    })
+  }
 
-  // Função para buscar e exibir projetos do GitHub
-  async function fetchGitHubProjects() {
-    const username = 'BernardoApl';
-    const projectsContainer = document.getElementById('projects-container');
-    const userInfoContainer = document.getElementById('github-user-info');
+  handleScroll() {
+    const scrollY = window.pageYOffset
+
+    // Header background on scroll
+    const header = document.querySelector("header")
+    if (header) {
+      if (scrollY > 100) {
+        header.classList.add("scrolled")
+      } else {
+        header.classList.remove("scrolled")
+      }
+    }
+
+    // Animate skills when in viewport
+    if (!state.skillsAnimated) {
+      const skillsSection = document.querySelector("#skills")
+      if (skillsSection && this.isInViewport(skillsSection)) {
+        this.animateSkills()
+        state.skillsAnimated = true
+      }
+    }
+
+    // Animate stats when in viewport
+    if (!state.statsAnimated) {
+      const statsGrid = document.querySelector(".stats-grid")
+      if (statsGrid && this.isInViewport(statsGrid)) {
+        this.animateStats()
+        state.statsAnimated = true
+      }
+    }
+
+    // Update active nav link
+    this.updateActiveNavOnScroll()
+
+    // Show/hide back to top button
+    this.toggleBackToTop()
+  }
+
+  updateActiveNavLink(targetId) {
+    document.querySelectorAll(".nav-items a").forEach((link) => {
+      link.classList.remove("active")
+      if (link.getAttribute("href") === targetId) {
+        link.classList.add("active")
+      }
+    })
+  }
+
+  updateActiveNavOnScroll() {
+    const sections = document.querySelectorAll("section[id]")
+    const scrollPos = window.pageYOffset + 150
+
+    sections.forEach((section) => {
+      const sectionTop = section.offsetTop
+      const sectionHeight = section.offsetHeight
+      const sectionId = section.getAttribute("id")
+
+      if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+        this.updateActiveNavLink(`#${sectionId}`)
+      }
+    })
+  }
+
+  animateSkills() {
+    const skillBars = document.querySelectorAll(".skill-progress")
+
+    skillBars.forEach((bar, index) => {
+      setTimeout(() => {
+        const progress = bar.dataset.progress
+        bar.style.width = `${progress}%`
+        bar.classList.add("fade-in")
+      }, index * 200)
+    })
+  }
+
+  animateStats() {
+    const stats = document.querySelectorAll(".stat-number")
+
+    stats.forEach((stat, index) => {
+      setTimeout(() => {
+        const target = Number.parseInt(stat.dataset.count)
+        this.animateCounter(stat, 0, target, 2000)
+      }, index * 300)
+    })
+  }
+
+  animateCounter(element, start, end, duration) {
+    const startTime = performance.now()
+
+    const updateCounter = (currentTime) => {
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / duration, 1)
+
+      const current = Math.floor(start + (end - start) * this.easeOutQuart(progress))
+      element.textContent = current
+
+      if (progress < 1) {
+        requestAnimationFrame(updateCounter)
+      } else {
+        element.textContent = end
+      }
+    }
+
+    requestAnimationFrame(updateCounter)
+  }
+
+  easeOutQuart(t) {
+    return 1 - Math.pow(1 - t, 4)
+  }
+
+  async loadGitHubProjects() {
+    const projectsContainer = document.getElementById("projects-container")
+    const userInfoContainer = document.getElementById("github-user-info")
+
+    if (!projectsContainer || !userInfoContainer) return
 
     try {
-      // Buscar informações do usuário
-      const userResponse = await fetch(`https://api.github.com/users/${username}`);
-      const userData = await userResponse.json();
+      // Load user info and repositories in parallel
+      const [userResponse, reposResponse] = await Promise.all([
+        fetch(`https://api.github.com/users/${CONFIG.GITHUB_USERNAME}`),
+        fetch(`https://api.github.com/users/${CONFIG.GITHUB_USERNAME}/repos?sort=updated&per_page=12`),
+      ])
 
-      // Exibir informações do usuário
-      userInfoContainer.innerHTML = `
-        <img src="${userData.avatar_url}" alt="${userData.name || username}" />
-        <div class="github-user-details">
-          <h3>${userData.name || username}</h3>
-          <p>${userData.bio || ''}</p>
-          <div class="github-stats">
-            <div class="github-stat">
-              <i class="fas fa-code-branch"></i>
-              <span>${userData.public_repos} repositórios</span>
-            </div>
-            <div class="github-stat">
-              <i class="fas fa-users"></i>
-              <span>${userData.followers} seguidores</span>
-            </div>
-          </div>
-        </div>
-      `;
+      if (!userResponse.ok || !reposResponse.ok) {
+        throw new Error("Failed to fetch GitHub data")
+      }
 
-      // Buscar repositórios
-      const reposResponse = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=9`);
-      const repos = await reposResponse.json();
+      const [userData, repos] = await Promise.all([userResponse.json(), reposResponse.json()])
 
-      // Limpar o container
-      projectsContainer.innerHTML = '';
+      // Display user info
+      this.displayGitHubUserInfo(userInfoContainer, userData)
 
-      // Exibir repositórios
-      repos.forEach(repo => {
-        const projectCard = document.createElement('div');
-        projectCard.className = 'project-card';
+      // Display repositories
+      this.displayGitHubRepos(projectsContainer, repos)
 
-        // Determinar linguagem principal
-        const language = repo.language || 'N/A';
-
-        projectCard.innerHTML = `
-          <div class="project-info">
-            <h3>${repo.name}</h3>
-            <p>${repo.description || 'Sem descrição disponível.'}</p>
-            <div class="project-tags">
-              <span>${language}</span>
-              ${repo.stargazers_count > 0 ? `<span>${repo.stargazers_count} ⭐</span>` : ''}
-              ${repo.forks_count > 0 ? `<span>${repo.forks_count} forks</span>` : ''}
-            </div>
-            <div class="project-links">
-              ${repo.homepage ? `<a href="${repo.homepage}" target="_blank"><i class="fas fa-external-link-alt"></i></a>` : ''}
-              <a href="${repo.html_url}" target="_blank"><i class="fab fa-github"></i></a>
-            </div>
-          </div>
-        `;
-
-        projectsContainer.appendChild(projectCard);
-      });
-
+      state.projectsLoaded = true
     } catch (error) {
-      console.error('Erro ao buscar projetos do GitHub:', error);
-      projectsContainer.innerHTML = `
-        <div class="error">
-          <p>Erro ao carregar projetos do GitHub. Por favor, tente novamente mais tarde.</p>
+      console.error("Error loading GitHub projects:", error)
+      this.displayError(projectsContainer, "Erro ao carregar projetos do GitHub. Tente novamente mais tarde.")
+    }
+  }
+
+  displayGitHubUserInfo(container, userData) {
+    container.innerHTML = `
+      <img src="${userData.avatar_url}" alt="${userData.name || userData.login}" loading="lazy">
+      <div class="github-user-details">
+        <h3>${userData.name || userData.login}</h3>
+        <p>${userData.bio || "Desenvolvedor apaixonado por tecnologia"}</p>
+        <div class="github-stats">
+          <div class="github-stat">
+            <i class="fas fa-code-branch"></i>
+            <span>${userData.public_repos} repositórios</span>
+          </div>
+          <div class="github-stat">
+            <i class="fas fa-users"></i>
+            <span>${userData.followers} seguidores</span>
+          </div>
+          <div class="github-stat">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>${userData.location || "Brasil"}</span>
+          </div>
         </div>
-      `;
+      </div>
+    `
+  }
+
+  displayGitHubRepos(container, repos) {
+    container.innerHTML = ""
+
+    repos.forEach((repo, index) => {
+      const projectCard = this.createProjectCard(repo)
+      projectCard.style.animationDelay = `${index * 0.1}s`
+      projectCard.classList.add("fade-in")
+      container.appendChild(projectCard)
+    })
+  }
+
+  createProjectCard(repo) {
+    const card = document.createElement("div")
+    card.className = "project-card"
+    card.dataset.language = (repo.language || "other").toLowerCase()
+
+    const language = repo.language || "N/A"
+    const topics = repo.topics || []
+
+    card.innerHTML = `
+      <div class="project-info">
+        <h3>${repo.name}</h3>
+        <p>${repo.description || "Sem descrição disponível."}</p>
+        <div class="project-tags">
+          <span>${language}</span>
+          ${repo.stargazers_count > 0 ? `<span><i class="fas fa-star"></i> ${repo.stargazers_count}</span>` : ""}
+          ${repo.forks_count > 0 ? `<span><i class="fas fa-code-branch"></i> ${repo.forks_count}</span>` : ""}
+          ${topics
+            .slice(0, 2)
+            .map((topic) => `<span>${topic}</span>`)
+            .join("")}
+        </div>
+        <div class="project-links">
+          ${repo.homepage ? `<a href="${repo.homepage}" target="_blank" rel="noopener noreferrer" title="Ver projeto"><i class="fas fa-external-link-alt"></i></a>` : ""}
+          <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" title="Ver código"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+    `
+
+    return card
+  }
+
+  setupProjectFilters() {
+    const filterButtons = document.querySelectorAll(".filter-btn")
+    const projectCards = document.querySelectorAll(".project-card")
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.filter
+
+        // Update active button
+        filterButtons.forEach((btn) => btn.classList.remove("active"))
+        button.classList.add("active")
+
+        // Filter projects
+        this.filterProjects(filter)
+        state.currentFilter = filter
+      })
+    })
+  }
+
+  filterProjects(filter) {
+    const projectCards = document.querySelectorAll(".project-card")
+
+    projectCards.forEach((card) => {
+      const language = card.dataset.language
+      const shouldShow =
+        filter === "all" ||
+        language === filter ||
+        (filter === "web" && ["html", "css", "javascript"].includes(language))
+
+      if (shouldShow) {
+        card.style.display = "block"
+        card.classList.add("fade-in")
+      } else {
+        card.style.display = "none"
+        card.classList.remove("fade-in")
+      }
+    })
+  }
+
+  setupContactForm() {
+    const contactForm = document.getElementById("contact-form")
+
+    if (contactForm) {
+      contactForm.addEventListener("submit", (e) => {
+        e.preventDefault()
+        this.handleFormSubmission(contactForm)
+      })
+
+      // Real-time validation
+      const inputs = contactForm.querySelectorAll("input, textarea")
+      inputs.forEach((input) => {
+        input.addEventListener("blur", () => this.validateField(input))
+        input.addEventListener("input", () => this.clearFieldError(input))
+      })
     }
   }
 
-  // Chamar a função quando a seção de projetos está visível
-  window.addEventListener('scroll', () => {
-    if (isInViewport(document.querySelector('#projects')) && !projectsLoaded) {
-      fetchGitHubProjects();
-      projectsLoaded = true;
+  validateField(field) {
+    const value = field.value.trim()
+    let isValid = true
+    let errorMessage = ""
+
+    if (field.hasAttribute("required") && !value) {
+      isValid = false
+      errorMessage = "Este campo é obrigatório"
+    } else if (field.type === "email" && value && !this.isValidEmail(value)) {
+      isValid = false
+      errorMessage = "Por favor, insira um email válido"
     }
-  });
 
-  // Variável para controlar se os projetos já foram carregados
-  let projectsLoaded = false;
-
-  // Animate skills when in viewport
-  function animateSkills() {
-    const skillBars = document.querySelectorAll('.skill-progress');
-
-    skillBars.forEach(bar => {
-      const progress = bar.dataset.progress + '%';
-      bar.style.width = progress;
-    });
+    this.showFieldError(field, isValid, errorMessage)
+    return isValid
   }
 
-  // Animate stats counter when in viewport
-  function animateStats() {
-    const stats = document.querySelectorAll('.stat-number');
+  showFieldError(field, isValid, message) {
+    const existingError = field.parentNode.querySelector(".field-error")
 
-    stats.forEach(stat => {
-      const target = parseInt(stat.dataset.count);
-      const increment = target / 100;
-      let current = 0;
+    if (existingError) {
+      existingError.remove()
+    }
 
-      const updateCount = () => {
-        if (current < target) {
-          current += increment;
-          stat.textContent = Math.ceil(current);
-          setTimeout(updateCount, 10);
-        } else {
-          stat.textContent = target;
+    if (!isValid) {
+      field.style.borderColor = "var(--error-color)"
+      const errorElement = document.createElement("div")
+      errorElement.className = "field-error"
+      errorElement.textContent = message
+      errorElement.style.color = "var(--error-color)"
+      errorElement.style.fontSize = "0.8rem"
+      errorElement.style.marginTop = "0.25rem"
+      field.parentNode.appendChild(errorElement)
+    } else {
+      field.style.borderColor = "var(--success-color)"
+    }
+  }
+
+  clearFieldError(field) {
+    const existingError = field.parentNode.querySelector(".field-error")
+    if (existingError) {
+      existingError.remove()
+    }
+    field.style.borderColor = "rgba(99, 102, 241, 0.2)"
+  }
+
+  async handleFormSubmission(form) {
+    const formData = new FormData(form)
+    const data = Object.fromEntries(formData)
+
+    // Validate all fields
+    const inputs = form.querySelectorAll("input, textarea")
+    let isFormValid = true
+
+    inputs.forEach((input) => {
+      if (!this.validateField(input)) {
+        isFormValid = false
+      }
+    })
+
+    if (!isFormValid) {
+      this.showNotification("Por favor, corrija os erros no formulário", "error")
+      return
+    }
+
+    const submitBtn = form.querySelector('button[type="submit"]')
+    const originalContent = submitBtn.innerHTML
+
+    // Show loading state
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...'
+    submitBtn.disabled = true
+
+    try {
+      await this.sendEmail(data)
+      this.showNotification("Mensagem enviada com sucesso! Entrarei em contato em breve.", "success")
+      form.reset()
+
+      // Clear field styles
+      inputs.forEach((input) => this.clearFieldError(input))
+    } catch (error) {
+      console.error("Error sending email:", error)
+      this.showNotification("Erro ao enviar mensagem. Tente novamente mais tarde.", "error")
+    } finally {
+      submitBtn.innerHTML = originalContent
+      submitBtn.disabled = false
+    }
+  }
+
+  async sendEmail(data) {
+    if (typeof emailjs === "undefined") {
+      throw new Error("EmailJS not loaded")
+    }
+
+    const templateParams = {
+      to_name: "Bernardo",
+      to_email: "b.lopes.software@gmail.com",
+      from_name: data.name,
+      from_email: data.email,
+      subject: data.subject,
+      message: data.message,
+    }
+
+    return emailjs.send(CONFIG.EMAILJS_SERVICE_ID, CONFIG.EMAILJS_TEMPLATE_ID, templateParams)
+  }
+
+  showNotification(message, type = "info") {
+    const notification = document.createElement("div")
+    notification.className = `notification notification-${type}`
+    notification.innerHTML = `
+      <div class="notification-content">
+        <i class="fas fa-${type === "success" ? "check-circle" : type === "error" ? "exclamation-circle" : "info-circle"}"></i>
+        <span>${message}</span>
+      </div>
+    `
+
+    // Add styles
+    Object.assign(notification.style, {
+      position: "fixed",
+      top: "20px",
+      right: "20px",
+      background:
+        type === "success" ? "var(--success-color)" : type === "error" ? "var(--error-color)" : "var(--primary-color)",
+      color: "white",
+      padding: "var(--spacing-md)",
+      borderRadius: "var(--border-radius)",
+      boxShadow: "var(--shadow-lg)",
+      zIndex: "10000",
+      transform: "translateX(100%)",
+      transition: "transform 0.3s ease",
+      maxWidth: "400px",
+    })
+
+    document.body.appendChild(notification)
+
+    // Animate in
+    setTimeout(() => {
+      notification.style.transform = "translateX(0)"
+    }, 100)
+
+    // Remove after delay
+    setTimeout(() => {
+      notification.style.transform = "translateX(100%)"
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.parentNode.removeChild(notification)
         }
-      };
-
-      updateCount();
-    });
+      }, 300)
+    }, 5000)
   }
 
-  // Check if element is in viewport
-  function isInViewport(element) {
-    const rect = element.getBoundingClientRect();
+  setupBackToTop() {
+    const backToTopBtn = document.getElementById("back-to-top")
+
+    if (backToTopBtn) {
+      backToTopBtn.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        })
+      })
+    }
+  }
+
+  toggleBackToTop() {
+    const backToTopBtn = document.getElementById("back-to-top")
+
+    if (backToTopBtn) {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.classList.add("visible")
+      } else {
+        backToTopBtn.classList.remove("visible")
+      }
+    }
+  }
+
+  createParticles() {
+    const containers = document.querySelectorAll(".particles-container")
+
+    containers.forEach((container) => {
+      if (!container) return
+
+      container.innerHTML = ""
+
+      const numParticles = Math.max(5, Math.floor(window.innerWidth / 100))
+
+      for (let i = 0; i < numParticles; i++) {
+        const particle = document.createElement("span")
+        particle.className = "particle"
+
+        const size = Math.random() * 15 + 5
+        particle.style.width = `${size}px`
+        particle.style.height = `${size}px`
+
+        const posX = Math.random() * 100
+        particle.style.left = `${posX}%`
+        particle.style.top = "100%"
+
+        const opacity = Math.random() * 0.5 + 0.1
+        particle.style.opacity = opacity
+
+        const duration = Math.random() * 10 + 15
+        particle.style.animationDuration = `${duration}s`
+
+        const delay = Math.random() * 5
+        particle.style.animationDelay = `${delay}s`
+
+        container.appendChild(particle)
+      }
+    })
+  }
+
+  initializeAnimations() {
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("fade-in")
+        }
+      })
+    }, observerOptions)
+
+    // Observe elements for animation
+    document.querySelectorAll(".skill-category, .project-card, .contact-item").forEach((el) => {
+      observer.observe(el)
+    })
+  }
+
+  // Utility functions
+  isInViewport(element) {
+    const rect = element.getBoundingClientRect()
     return (
       rect.top >= 0 &&
       rect.left >= 0 &&
       rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
       rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
+    )
   }
 
-  // Handle scroll events for animations
-  let skillsAnimated = false;
-  let statsAnimated = false;
+  isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
 
-  window.addEventListener('scroll', () => {
-    // Animate skills when skills section is in viewport
-    if (!skillsAnimated && isInViewport(document.querySelector('.skills'))) {
-      animateSkills();
-      skillsAnimated = true;
-    }
-
-    // Animate stats when about section is in viewport
-    if (!statsAnimated && isInViewport(document.querySelector('.stats'))) {
-      animateStats();
-      statsAnimated = true;
-    }
-
-    // Update active nav link based on scroll position
-    const sections = document.querySelectorAll('section');
-    let currentSection = '';
-
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop - 100;
-      const sectionHeight = section.clientHeight;
-      if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
-        currentSection = section.getAttribute('id');
-      }
-    });
-
-    document.querySelectorAll('.nav-items a').forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === `#${currentSection}`) {
-        link.classList.add('active');
-      }
-    });
-  });
-
-  // Form Submission
-  const contactForm = document.getElementById('contact-form');
-
-  // Inicializa o EmailJS com sua chave pública
-  emailjs.init("RQ1dSXDL1URKXCGsG"); // Sua chave pública do EmailJS
-
-  contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const subject = document.getElementById('subject').value;
-    const message = document.getElementById('message').value;
-
-    // Validation
-    if (!name || !email || !subject || !message) {
-      alert('Por favor, preencha todos os campos');
-      return;
-    }
-
-    // Desabilitar o botão enquanto envia
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
-    const originalBtnText = submitBtn.textContent;
-    submitBtn.textContent = 'Enviando...';
-    submitBtn.disabled = true;
-
-    // Parâmetros para o template do EmailJS
-    const templateParams = {
-      to_name: "Bernardo",
-      to_email: "b.lopes.software@gmail.com",
-      from_name: name,
-      from_email: email,
-      subject: subject,
-      message: message
-    };
-
-    // Enviar email usando EmailJS
-    emailjs.send('service_mq054m8', 'template_lf5n7os', templateParams)
-      .then(function(response) {
-        console.log('SUCCESS!', response.status, response.text);
-        alert('Sua mensagem foi enviada com sucesso!');
-        contactForm.reset();
-      }, function(error) {
-        console.log('FAILED...', error);
-        alert('Erro ao enviar mensagem. Por favor, tente novamente mais tarde.');
-      })
-      .finally(function() {
-        // Restaurar o botão
-        submitBtn.textContent = originalBtnText;
-        submitBtn.disabled = false;
-      });
-  });
-
-  // Função para criar partículas animadas
-function createParticles() {
-  const containers = [
-    document.getElementById('particles-container'),
-    document.getElementById('particles-home'),
-    document.getElementById('particles-about'),
-    document.getElementById('particles-projects'),
-    document.getElementById('particles-contact')
-  ];
-  
-  containers.forEach(container => {
-    if (!container) return;
-    
-    // Limpar partículas existentes
-    container.innerHTML = '';
-    
-    // Número de partículas baseado no tamanho da tela
-    const numParticles = Math.floor(window.innerWidth / 15);
-    
-    // Criar partículas
-    for (let i = 0; i < numParticles; i++) {
-      const particle = document.createElement('span');
-      particle.className = 'particle';
-      
-      // Tamanho aleatório
-      const size = Math.random() * 20 + 5;
-      particle.style.width = `${size}px`;
-      particle.style.height = `${size}px`;
-      
-      // Posição inicial aleatória
-      const posX = Math.random() * 100;
-      const posY = Math.random() * 100;
-      particle.style.left = `${posX}%`;
-      particle.style.top = `${posY}%`;
-      
-      // Opacidade aleatória
-      particle.style.opacity = Math.random() * 0.5 + 0.1;
-      
-      // Duração da animação aleatória
-      const duration = Math.random() * 15 + 10;
-      particle.style.animationDuration = `${duration}s`;
-      
-      // Atraso da animação aleatório
-      const delay = Math.random() * 5;
-      particle.style.animationDelay = `${delay}s`;
-      
-      container.appendChild(particle);
-    }
-  });
+  displayError(container, message) {
+    container.innerHTML = `
+      <div class="error">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>${message}</p>
+      </div>
+    `
+  }
 }
 
-// Initialize animations on page load
-  window.addEventListener('load', () => {
-    // Criar partículas animadas
-    createParticles();
-    
-    // Recriar partículas ao redimensionar a janela
-    window.addEventListener('resize', createParticles);
-    
-    // Add mobile menu styling
-    document.head.insertAdjacentHTML('beforeend', `
-      <style>
-        @media screen and (max-width: 768px) {
-          .nav-items.active {
-            display: flex;
-            flex-direction: column;
-            position: absolute;
-            top: 80px;
-            left: 0;
-            right: 0;
-            background-color: white;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            z-index: 100;
-          }
+document.addEventListener("DOMContentLoaded", () => {
+  new PortfolioApp()
+})
 
-          .nav-items.active a {
-            margin: 10px 0;
-          }
-        }
-      </style>
-    `);
-
-    // Check if sections are already in viewport on page load
-    if (isInViewport(document.querySelector('.skills'))) {
-      animateSkills();
-      skillsAnimated = true;
-    }
-
-    if (isInViewport(document.querySelector('.stats'))) {
-      animateStats();
-      statsAnimated = true;
-    }
-
-    // Carregar projetos do GitHub ao iniciar
-    fetchGitHubProjects();
-    projectsLoaded = true;
-  });
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    // Pause animations when page is not visible
+    document.querySelectorAll(".particle").forEach((particle) => {
+      particle.style.animationPlayState = "paused"
+    })
+  } else {
+    // Resume animations when page becomes visible
+    document.querySelectorAll(".particle").forEach((particle) => {
+      particle.style.animationPlayState = "running"
+    })
+  }
+})
