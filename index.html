@@ -1,38 +1,33 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bernardo Lopes - Desenvolvedor & Engenheiro de Software</title>
-  <meta name="description" content="Portfólio de Bernardo Lopes - Desenvolvedor Web e Engenheiro de Software especializado em Java, MySQL e desenvolvimento full-stack.">
-  
-  <!-- Added professional favicon and meta tags -->
-  <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
-  
-  <!-- Added Google Fonts for better typography -->
+  <meta name="description" content="Portfólio de Bernardo Lopes — Backend (Java/Spring), APIs e automação. Transformo requisitos em software robusto.">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="style.css" rel="stylesheet" type="text/css" />
   <link rel="icon" type="image/jpeg" href="Perfil.jpeg">
   <meta name="theme-color" content="#000000">
-  <meta property="og:title" content="Bernardo Lopes — Desenvolvedor e Engenheiro de Software">
-  <meta property="og:description" content="Portifolio, projetos, habilidades e contato.">
+  <meta property="og:title" content="Bernardo Augusto — Engenharia de Software">
+  <meta property="og:description" content="Backend (Java/Spring), APIs e automação. Transformo requisitos em software robusto.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="Perfil.jpeg">
   <meta property="og:locale" content="pt_BR">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Bernardo Lopes — Desenvolvedor e Engenheiro de Software">
-  <meta name="twitter:description" content="Portifolio, projetos, habilidades e contato.">
+  <meta name="twitter:title" content="Bernardo Augusto — Engenharia de Software">
+  <meta name="twitter:description" content="Backend (Java/Spring), APIs e automação. Transformo requisitos em software robusto.">
 </head>
 <body>
-  <a href="#home" class="skip-link">Pular para o conteudo</a>
-  <!-- Added loading screen for better UX -->
+  <a href="#home" class="skip-link">Pular para o conteúdo</a>
   <div id="loading-screen" class="loading-screen">
     <div class="loading-content">
       <div class="loading-spinner"></div>
@@ -43,11 +38,10 @@
   <header>
     <div class="navbar">
       <div class="logo">
-        <!-- Enhanced logo with icon -->
-        <i class="fas fa-code"></i>
+        <div class="logo-mark" aria-hidden="true"><span></span><span></span><span></span></div>
         <h1 class="brand-name">Bernardo<span class="highlight">.dev</span></h1>
       </div>
-      <div class="nav-items" id="nav-items" role="navigation" aria-label="Navegacao principal">
+      <div class="nav-items" id="nav-items" role="navigation" aria-label="Navegação principal">
         <a href="#home" class="active">Início</a>
         <a href="#about">Sobre</a>
         <a href="#skills">Habilidades</a>
@@ -59,176 +53,43 @@
           <i class="fas fa-file-arrow-down"></i>
           Download CV
         </a>
-        <button id="theme-toggle" class="btn" aria-label="Alternar tema">
-          <i class="fas fa-moon"></i>
-        </button>
+        <button id="theme-toggle" class="btn" aria-label="Alternar tema"><i class="fas fa-moon"></i></button>
       </div>
-      <button class="menu-toggle" aria-controls="nav-items" aria-expanded="false" aria-label="Abrir menu de navegacao">
-        <span></span>
-        <span></span>
-        <span></span>
+      <button class="menu-toggle" aria-controls="nav-items" aria-expanded="false" aria-label="Abrir menu de navegação">
+        <span></span><span></span><span></span>
       </button>
     </div>
   </header>
 
   <section id="home" class="hero">
-    <div class="particles-container" id="particles-home"></div>
-    <div class="hero-content">
-      <!-- Enhanced hero content with better structure -->
-      <div class="hero-badge" style="display:none;">
-        <i class="fas fa-code"></i>
-        <span>Desenvolvedor de Softwares</span>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <h1 class="hero-heading">Bernardo Augusto</h1>
+        <div class="hero-subtitle">Backend • Java • Spring Boot</div>
+        <p class="hero-desc">Transformo requisitos em software robusto. APIs bem projetadas, sistemas estáveis e foco em qualidade.</p>
+        <div class="hero-ctas">
+          <a href="#projects" class="btn primary-btn">Ver Projetos</a>
+          <a href="assets/cv.pdf" class="btn outline-btn cv-only" download>Download CV</a>
+        </div>
       </div>
-      <h1>Olá, eu sou <span class="highlight">Bernardo Lopes</span></h1>
-      <p class="typed-text">Especializado em <span id="typed"></span></p>
-      <p class="hero-description">
-        Estudante de Engenharia de Software apaixonado por criar soluções inovadoras 
-        e eficientes que transformam ideias em realidade digital.
-      </p>
-      <p class="hero-extra">Construo produtos úteis com foco em clareza, velocidade e experiência.</p>
-      <div class="cta-buttons">
-        <a href="#contact" class="btn primary-btn">
-          <i class="fas fa-envelope"></i>
-          Contate-me
-        </a>
-        <a href="#projects" class="btn secondary-btn">
-          <i class="fas fa-eye"></i>
-          Ver Projetos
-        </a>
-      </div>
-      <div class="social-links">
-        <a href="https://github.com/BernardoApl?tab=repositories" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub de Bernardo Lopes">
-          <i class="fab fa-github"></i>
-        </a>
-        <a href="https://www.linkedin.com/in/bernardo-lopes-3500b92b6/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn de Bernardo Lopes">
-          <i class="fab fa-linkedin"></i>
-        </a>
-      </div>
-    </div>
-    <!-- Added scroll indicator -->
-    <div class="scroll-indicator">
-      <div class="scroll-arrow">
-        <i class="fas fa-chevron-down"></i>
+      <div class="hero-right">
+        <img src="Perfil.jpeg" alt="Foto de Bernardo" class="hero-photo" loading="lazy" decoding="async">
       </div>
     </div>
   </section>
 
   <section id="about" class="about">
-    <div class="particles-container" id="particles-about"></div>
     <div class="container">
       <h2 class="section-title">Sobre Mim</h2>
       <div class="about-content">
-        <div class="about-img">
-          <div class="img-wrapper">
-            <img src="Perfil.jpeg" alt="Foto de perfil de Bernardo Lopes" loading="lazy">
-            <!-- Added floating elements for visual interest -->
-            <div class="floating-element element-1">
-              <i class="fas fa-code"></i>
-            </div>
-            <div class="floating-element element-2">
-              <i class="fas fa-laptop-code"></i>
-            </div>
-            <div class="floating-element element-3">
-              <i class="fas fa-database"></i>
-            </div>
-          </div>
-        </div>
+        <div class="about-img"><div class="img-wrapper"><img src="Perfil.jpeg" alt="Foto de perfil de Bernardo Lopes" loading="lazy"></div></div>
         <div class="about-text">
-          <!-- Enhanced about text with better formatting -->
           <div class="about-intro">
             <h3>Desenvolvedor & Futuro Engenheiro de Software</h3>
-            <p class="intro-text">
-              Transformando ideias em soluções digitais inovadoras através de código limpo e construção de software.
-            </p>
+            <p class="intro-text">Sou estudante na PUC Minas com foco em backend, APIs e bancos de dados. Gosto de transformar modelos e requisitos em código limpo, testável e performático.</p>
           </div>
-          
           <div class="about-details">
-            <p>
-              Meu nome é <strong>Bernardo Lopes</strong>, estudante de Engenharia de Software baseado em Betim, Brasil. 
-              Durante minha trajetória acadêmica, participei de diversos projetos que envolvem desenvolvimento de software, 
-              sempre aplicando boas práticas como análise de requisitos, modelagem de sistemas e testes automatizados.
-            </p>
-            <p>
-              Nascido em 2005, acredito que a tecnologia tem o poder de transformar o mundo. Como futuro engenheiro de software, 
-              estou sempre aprendendo novas metodologias ágeis, arquitetura de software e gerenciamento de projetos para 
-              criar soluções cada vez mais eficientes e escaláveis.
-            </p>
-          </div>
-
-          <!-- Added stats section -->
-          <div class="stats-grid">
-            <div class="stat-item">
-              <div class="stat-number" data-count="2">0</div>
-              <div class="stat-label">Anos de Experiência</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number" data-count="15">0</div>
-              <div class="stat-label">Projetos Concluídos</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number" data-count="5">0</div>
-              <div class="stat-label">Tecnologias</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Added dedicated skills section -->
-
-        <div class="tech-showcase">
-          <h3>Tecnologias que Utilizo</h3>
-          <!-- Added specific technology icons as requested -->
-          <div class="tech-icons">
-            <div class="tech-icon" title="Java">
-              <i class="fab fa-java"></i>
-              <span class="tech-label">Java</span>
-            </div>
-            <div class="tech-icon" title="HTML5">
-              <i class="fab fa-html5"></i>
-              <span class="tech-label">HTML5</span>
-            </div>
-            <div class="tech-icon" title="CSS3">
-              <i class="fab fa-css3-alt"></i>
-              <span class="tech-label">CSS3</span>
-            </div>
-            <div class="tech-icon" title="JavaScript">
-              <i class="fab fa-js-square"></i>
-              <span class="tech-label">JavaScript</span>
-            </div>
-            <div class="tech-icon" title="TypeScript">
-              <span class="tech-ts" aria-hidden="true">TS</span>
-              <span class="tech-label">TypeScript</span>
-            </div>
-            <div class="tech-icon" title="C">
-              <i class="fas fa-code"></i>
-              <span class="tech-label">C</span>
-            </div>
-            <div class="tech-icon" title="C++">
-              <i class="fas fa-code"></i>
-              <span class="tech-label">C++</span>
-            </div>
-            <div class="tech-icon" title="Git">
-              <i class="fab fa-git-alt"></i>
-              <span class="tech-label">Git</span>
-            </div>
-            <div class="tech-icon" title="GitHub">
-              <i class="fab fa-github"></i>
-              <span class="tech-label">GitHub</span>
-            </div>
-            <div class="tech-icon" title="n8n">
-              <i class="fas fa-project-diagram"></i>
-              <span class="tech-label">n8n</span>
-            </div>
-            <div class="tech-icon" title="VSCode">
-              <i class="fas fa-code"></i>
-              <span class="tech-label">VSCode</span>
-            </div>
-            <div class="tech-icon" title="React">
-              <i class="fab fa-react"></i>
-              <span class="tech-label">React</span>
-            </div>
+            <p>Nascido em 2005, acredito que tecnologia muda vidas. Busco boas práticas, qualidade e clareza em cada entrega.</p>
           </div>
         </div>
       </div>
@@ -236,121 +97,45 @@
   </section>
 
   <section id="projects" class="projects">
-    <div class="particles-container" id="particles-projects"></div>
     <div class="container">
       <h2 class="section-title">Meus Projetos</h2>
-      
-      <!-- Enhanced GitHub profile section -->
-      <div class="github-profile">
-        <div id="github-user-info" class="github-user-info">
-          <div class="loading">Carregando informações do GitHub...</div>
-        </div>
-      </div>
-      
-      <!-- Added project filters -->
       <div class="project-filters">
         <button class="filter-btn active" data-filter="all">Todos</button>
         <button class="filter-btn" data-filter="java">Java</button>
-        <button class="filter-btn" data-filter="c">C</button>
         <button class="filter-btn" data-filter="cpp">C++</button>
         <button class="filter-btn" data-filter="javascript">JavaScript</button>
         <button class="filter-btn" data-filter="web">Web</button>
-        <button class="filter-btn" data-filter="powerbi">Power BI</button>
-        <button class="filter-btn" data-filter="n8n">n8n</button>
-        <button class="filter-btn" data-filter="vscode">VSCode</button>
-        <button class="filter-btn" data-filter="github">GitHub</button>
-        <button class="filter-btn" data-filter="git">Git</button>
-        <button class="filter-btn" data-filter="intellij">IntelliJ</button>
       </div>
-
-      
       <div id="projects-container" class="projects-container">
         <div class="loading">
           <div class="loading-spinner"></div>
           <p>Carregando projetos do GitHub...</p>
         </div>
       </div>
-      <div class="text-center" style="margin-top: 1.5rem;">
-        <button id="load-more-projects" class="btn secondary-btn">
-          <i class="fas fa-plus"></i>
-          Mostrar mais projetos
-        </button>
-        <a class="btn primary-btn" href="https://github.com/BernardoApl?tab=repositories" target="_blank" rel="noopener noreferrer" style="margin-left: .5rem;">
-          <i class="fab fa-github"></i>
-          Ver todos no GitHub
-        </a>
+      <div class="text-center" style="margin-top:1.5rem;">
+        <button id="load-more-projects" class="btn secondary-btn"><i class="fas fa-plus"></i> Mostrar mais projetos</button>
+        <a class="btn primary-btn" href="https://github.com/BernardoApl?tab=repositories" target="_blank" rel="noopener">Ver todos no GitHub</a>
       </div>
     </div>
   </section>
 
   <section id="contact" class="contact">
-    <div class="particles-container" id="particles-contact"></div>
     <div class="container">
       <h2 class="section-title">Vamos Trabalhar Juntos</h2>
-      <div class="contact-intro">
-        <p>Tem um projeto em mente? Vamos conversar sobre como posso ajudar a transformar sua ideia em realidade.</p>
-      </div>
-      
       <div class="contact-content">
         <div class="contact-info">
-          <div class="contact-item">
-            <div class="contact-icon">
-              <i class="fas fa-envelope"></i>
-            </div>
-            <div class="contact-details">
-              <h4>Email</h4>
-              <p>b.lopes.software@gmail.com</p>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon">
-              <i class="fas fa-phone"></i>
-            </div>
-            <div class="contact-details">
-              <h4>Telefone</h4>
-              <p>+55 (31) 97182-0224</p>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon">
-              <i class="fas fa-map-marker-alt"></i>
-            </div>
-            <div class="contact-details">
-              <h4>Localização</h4>
-              <p>Betim, Minas Gerais, Brasil</p>
-            </div>
-          </div>
-          
-          <!-- Added availability status -->
-          <div class="availability-status" aria-live="polite">
-            <div class="status-indicator available"></div>
-            <span>Disponível para novos projetos</span>
-          </div>
+          <div class="contact-item"><div class="contact-icon"><i class="fas fa-envelope"></i></div><div class="contact-details"><h4>Email</h4><p>b.lopes.software@gmail.com</p></div></div>
+          <div class="contact-item"><div class="contact-icon"><i class="fas fa-phone"></i></div><div class="contact-details"><h4>Telefone</h4><p>+55 (31) 97182-0224</p></div></div>
+          <div class="availability-status" aria-live="polite"><div class="status-indicator available"></div><span>Disponível para novos projetos</span></div>
         </div>
-        
         <form id="contact-form" class="contact-form">
           <div class="form-row">
-            <div class="form-group">
-              <label for="name">Nome *</label>
-              <input type="text" id="name" name="name" autocomplete="name" placeholder="Seu nome completo" required>
-            </div>
-            <div class="form-group">
-              <label for="email">Email *</label>
-              <input type="email" id="email" name="email" autocomplete="email" placeholder="seu@email.com" required>
-            </div>
+            <div class="form-group"><label for="name">Nome *</label><input type="text" id="name" name="name" autocomplete="name" placeholder="Seu nome completo" required></div>
+            <div class="form-group"><label for="email">Email *</label><input type="email" id="email" name="email" autocomplete="email" placeholder="seu@email.com" required></div>
           </div>
-          <div class="form-group">
-            <label for="subject">Assunto *</label>
-            <input type="text" id="subject" placeholder="Sobre o que você gostaria de falar?" required>
-          </div>
-          <div class="form-group">
-            <label for="message">Mensagem *</label>
-            <textarea id="message" placeholder="Conte-me mais sobre seu projeto..." required></textarea>
-          </div>
-          <button type="submit" class="btn primary-btn">
-            <i class="fas fa-paper-plane"></i>
-            <span>Enviar Mensagem</span>
-          </button>
+          <div class="form-group"><label for="subject">Assunto *</label><input type="text" id="subject" name="subject" autocomplete="off" placeholder="Sobre o que você gostaria de falar?" required></div>
+          <div class="form-group"><label for="message">Mensagem *</label><textarea id="message" name="message" placeholder="Conte-me mais sobre seu projeto..." required></textarea></div>
+          <button type="submit" class="btn primary-btn"><i class="fas fa-paper-plane"></i> <span>Enviar Mensagem</span></button>
         </form>
       </div>
     </div>
@@ -359,45 +144,16 @@
   <footer>
     <div class="container">
       <div class="footer-content">
-        <div class="footer-left">
-          <div class="footer-logo">
-            <i class="fas fa-code"></i>
-            <span>Bernardo<span class="highlight">.dev</span></span>
-          </div>
-          <p>&copy; 2025 Bernardo Lopes. Todos os direitos reservados.</p>
-        </div>
-        <div class="footer-right">
-          <div class="social-links">
-            <a href="https://github.com/BernardoApl?tab=repositories" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub de Bernardo Lopes">
-              <i class="fab fa-github"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/bernardo-lopes-3500b92b6/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn de Bernardo Lopes">
-              <i class="fab fa-linkedin"></i>
-            </a>
-          </div>
-        </div>
+        <div class="footer-left"><div class="footer-logo"><i class="fas fa-code"></i><span>Bernardo<span class="highlight">.dev</span></span></div><p>&copy; 2025 Bernardo Lopes. Todos os direitos reservados.</p></div>
+        <div class="footer-right"><div class="social-links"><a href="https://github.com/BernardoApl?tab=repositories" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub de Bernardo Lopes"><i class="fab fa-github"></i></a><a href="https://www.linkedin.com/in/bernardo-lopes-3500b92b6/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn de Bernardo Lopes"><i class="fab fa-linkedin"></i></a></div></div>
       </div>
     </div>
   </footer>
 
-  <!-- Added back to top button -->
-  <button id="back-to-top" class="back-to-top" title="Voltar ao topo">
-    <i class="fas fa-chevron-up"></i>
-  </button>
+  <button id="back-to-top" class="back-to-top" title="Voltar ao topo"><i class="fas fa-chevron-up"></i></button>
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Bernardo Lopes",
-    "jobTitle": "Desenvolvedor e Estudante de Engenharia de Software",
-    "email": "mailto:b.lopes.software@gmail.com",
-    "image": "Perfil.jpeg",
-    "sameAs": [
-      "https://github.com/BernardoApl",
-      "https://www.linkedin.com/in/bernardo-lopes-3500b92b6/"
-    ]
-  }
+  {"@context":"https://schema.org","@type":"Person","name":"Bernardo Lopes","jobTitle":"Desenvolvedor e Estudante de Engenharia de Software","email":"mailto:b.lopes.software@gmail.com","image":"Perfil.jpeg","sameAs":["https://github.com/BernardoApl","https://www.linkedin.com/in/bernardo-lopes-3500b92b6/"]}
   </script>
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>

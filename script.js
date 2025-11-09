@@ -1,4 +1,4 @@
-// Configuration
+﻿// Configuration
 const CONFIG = {
   GITHUB_USERNAME: "BernardoApl",
   EMAILJS_PUBLIC_KEY: "RQ1dSXDL1URKXCGsG",
@@ -8,8 +8,8 @@ const CONFIG = {
     "Desenvolvimento Java",
     "Engenharia de Software",
     "Banco de Dados MySQL",
-    "Automação com n8n",
-    "Soluções Full-Stack",
+    "AutomaÃ§Ã£o com n8n",
+    "SoluÃ§Ãµes Full-Stack",
   ],
 }
 
@@ -17,21 +17,21 @@ const CONFIG = {
 const CURATED_PROJECTS = [
   {
     title: 'Folha de Pagamento',
-    pitch: 'API com autenticação e perfis dev/prod.',
+    pitch: 'API com autenticaÃ§Ã£o e perfis dev/prod.',
     techs: ['Java', 'Spring Boot', 'PostgreSQL', 'H2', 'JWT'],
     codeUrl: 'https://github.com/BernardoApl',
     demoUrl: ''
   },
   {
     title: 'CarExpress (C++)',
-    pitch: 'CRUD + backup/restauração .dat.',
+    pitch: 'CRUD + backup/restauraÃ§Ã£o .dat.',
     techs: ['C++'],
     codeUrl: 'https://github.com/BernardoApl',
     demoUrl: ''
   },
   {
     title: 'Certificados IA (POC)',
-    pitch: 'Landing com 30 perguntas e regra ≥70%.',
+    pitch: 'Landing com 30 perguntas e regra â‰¥70%.',
     techs: ['HTML', 'JavaScript'],
     codeUrl: 'https://github.com/BernardoApl',
     demoUrl: ''
@@ -187,14 +187,23 @@ class PortfolioApp {
     const hero = document.querySelector('.hero-content')
     if (!hero) return
     const block = `
+      <aside class="hero-rail">
+        <div class="rail-inner">
+          <div class="rail-icons">
+            <a href="https://github.com/BernardoApl" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/bernardo-lopes-3500b92b6/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+          </div>
+          <div class="rail-text">engenharia • backend</div>
+        </div>
+      </aside>
       <div class="hero-grid">
         <div class="hero-left">
           <div class="super-title">Engenharia de Software</div>
           <h1 class="hero-title">Bernardo Augusto</h1>
-          <p class="hero-sub">Backend (Java/Spring), APIs e automação. Transformo requisitos em software robusto.</p>
+          <p class="hero-sub">Backend (Java/Spring), APIs e automaÃ§Ã£o. Transformo requisitos em software robusto.</p>
           <div class="cta-buttons">
             <a href="#projects" class="btn primary-btn"><i class="fas fa-eye"></i> Ver Projetos</a>
-            <a href="assets/cv.pdf" class="btn secondary-btn" download><i class="fas fa-file-arrow-down"></i> Baixar CV</a>
+            <a href="assets/cv.pdf" class="btn secondary-btn cv-only" download><i class="fas fa-file-arrow-down"></i> Baixar CV</a>
           </div>
           <div class="hero-badges">
             <span class="chip"><i class="fab fa-java"></i> Java</span>
@@ -203,6 +212,7 @@ class PortfolioApp {
             <span class="chip"><i class="fab fa-docker"></i> Docker</span>
             <span class="chip"><i class="fab fa-git-alt"></i> Git</span>
           </div>
+          <p class="hero-tagline">Construo produtos úteis com foco em clareza, velocidade e experiência.</p>
         </div>
         <div class="hero-right">
           <div class="hero-photo-wrap">
@@ -217,7 +227,27 @@ class PortfolioApp {
     })
     const oldH1 = hero.querySelector(':scope > h1')
     if (oldH1) oldH1.remove()
-  }
+    const heroSection = hero.closest('.hero')
+    if (heroSection) {
+      if (!heroSection.querySelector('.hero-mini-nav')) {
+        const mini = document.createElement('nav')
+        mini.className = 'hero-mini-nav'
+        mini.innerHTML = '<a href="#about">about</a><a href="#contact">contact</a>'
+        heroSection.appendChild(mini)
+      }
+      if (!heroSection.querySelector('.hero-dots')) {
+        const dots = document.createElement('div')
+        dots.className = 'hero-dots'
+        dots.innerHTML = '<span class="dot-label">Welcome</span><span class="dot active"></span>'
+        heroSection.appendChild(dots)
+      }
+      if (!heroSection.querySelector('.hero-bg-photo')) {
+        const bg = document.createElement('div')
+        bg.className = 'hero-bg-photo'
+        bg.style.backgroundImage = 'url(\'Perfil.jpeg\')'
+        heroSection.appendChild(bg)
+      }
+    }  }
 
   setupMobileMenu() {
     const menuToggle = document.querySelector(".menu-toggle")
@@ -275,7 +305,7 @@ class PortfolioApp {
         state._reposPage = next
       } catch (e) {
         console.error(e)
-        this.showNotification('Não foi possível carregar mais projetos agora.', 'error')
+        this.showNotification('NÃ£o foi possÃ­vel carregar mais projetos agora.', 'error')
         btn.innerHTML = original
       } finally {
         if (!btn.disabled) btn.innerHTML = original
@@ -502,7 +532,7 @@ class PortfolioApp {
           <p class="project-description">${p.pitch}</p>
           <div class="project-tech">${p.techs.map(t=>`<span class="tech-tag">${t}</span>`).join('')}</div>
           <div class="project-links">
-            <a class="project-link" href="${p.codeUrl}" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
+            <a class="project-link" href="${p.codeUrl}" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> CÃ³digo</a>
             ${p.demoUrl ? `<a class="project-link" href="${p.demoUrl}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> Demo</a>`: ''}
           </div>
         </div>`
@@ -521,7 +551,7 @@ class PortfolioApp {
         <div class="github-stats">
           <div class="github-stat">
             <i class="fas fa-code-branch"></i>
-            <span>${userData.public_repos} repositórios</span>
+            <span>${userData.public_repos} repositÃ³rios</span>
           </div>
           <div class="github-stat">
             <i class="fas fa-users"></i>
@@ -557,7 +587,7 @@ class PortfolioApp {
     card.innerHTML = `
       <div class="project-info">
         <h3>${repo.name}</h3>
-        <p>${repo.description || "Sem descrição disponível."}</p>
+        <p>${repo.description || "Sem descriÃ§Ã£o disponÃ­vel."}</p>
         <div class="project-tags">
           <span>${language}</span>
           ${repo.stargazers_count > 0 ? `<span><i class="fas fa-star"></i> ${repo.stargazers_count}</span>` : ""}
@@ -569,7 +599,7 @@ class PortfolioApp {
         </div>
         <div class="project-links">
           ${repo.homepage ? `<a href="${repo.homepage}" target="_blank" rel="noopener noreferrer" title="Ver projeto"><i class="fas fa-external-link-alt"></i></a>` : ""}
-          <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" title="Ver código"><i class="fab fa-github"></i></a>
+          <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" title="Ver cÃ³digo"><i class="fab fa-github"></i></a>
         </div>
       </div>
     `
@@ -641,10 +671,10 @@ class PortfolioApp {
 
     if (field.hasAttribute("required") && !value) {
       isValid = false
-      errorMessage = "Este campo é obrigatório"
+      errorMessage = "Este campo Ã© obrigatÃ³rio"
     } else if (field.type === "email" && value && !this.isValidEmail(value)) {
       isValid = false
-      errorMessage = "Por favor, insira um email válido"
+      errorMessage = "Por favor, insira um email vÃ¡lido"
     }
 
     this.showFieldError(field, isValid, errorMessage)
@@ -699,7 +729,7 @@ class PortfolioApp {
     })
 
     if (!isFormValid) {
-      this.showNotification("Por favor, corrija os erros no formulário", "error")
+      this.showNotification("Por favor, corrija os erros no formulÃ¡rio", "error")
       return
     }
 
@@ -923,3 +953,6 @@ document.addEventListener("visibilitychange", () => {
     })
   }
 })
+
+
+
