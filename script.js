@@ -13,6 +13,31 @@ const CONFIG = {
   ],
 }
 
+// Curated projects to feature first
+const CURATED_PROJECTS = [
+  {
+    title: 'Folha de Pagamento',
+    pitch: 'API com autenticação e perfis dev/prod.',
+    techs: ['Java', 'Spring Boot', 'PostgreSQL', 'H2', 'JWT'],
+    codeUrl: 'https://github.com/BernardoApl',
+    demoUrl: ''
+  },
+  {
+    title: 'CarExpress (C++)',
+    pitch: 'CRUD + backup/restauração .dat.',
+    techs: ['C++'],
+    codeUrl: 'https://github.com/BernardoApl',
+    demoUrl: ''
+  },
+  {
+    title: 'Certificados IA (POC)',
+    pitch: 'Landing com 30 perguntas e regra ≥70%.',
+    techs: ['HTML', 'JavaScript'],
+    codeUrl: 'https://github.com/BernardoApl',
+    demoUrl: ''
+  }
+]
+
 // State management
 const state = {
   projectsLoaded: false,
@@ -78,6 +103,9 @@ class PortfolioApp {
 
     // Load GitHub projects
     await this.loadGitHubProjects()
+
+    // Inject modern hero layout
+    this.injectHeroLayout()
   }
 
   initTypedJS() {
@@ -122,10 +150,73 @@ class PortfolioApp {
     // Back to top button
     this.setupBackToTop()
 
+    // Theme toggle
+    this.setupThemeToggle()
+
     // Window resize
     window.addEventListener("resize", () => {
       this.createParticles()
     })
+  }
+
+  setupThemeToggle() {
+    const btn = document.getElementById('theme-toggle')
+    const root = document.documentElement
+    const applyTheme = (t) => {
+      if (t === 'light') {
+        root.classList.add('theme-light')
+      } else {
+        root.classList.remove('theme-light')
+      }
+    }
+    const saved = localStorage.getItem('theme') || 'dark'
+    applyTheme(saved)
+    if (btn) {
+      btn.innerHTML = saved === 'light' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>'
+      btn.addEventListener('click', () => {
+        const current = root.classList.contains('theme-light') ? 'light' : 'dark'
+        const next = current === 'light' ? 'dark' : 'light'
+        localStorage.setItem('theme', next)
+        applyTheme(next)
+        btn.innerHTML = next === 'light' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>'
+      })
+    }
+  }
+
+  injectHeroLayout() {
+    const hero = document.querySelector('.hero-content')
+    if (!hero) return
+    const block = `
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="super-title">Engenharia de Software</div>
+          <h1 class="hero-title">Bernardo Augusto</h1>
+          <p class="hero-sub">Backend (Java/Spring), APIs e automação. Transformo requisitos em software robusto.</p>
+          <div class="cta-buttons">
+            <a href="#projects" class="btn primary-btn"><i class="fas fa-eye"></i> Ver Projetos</a>
+            <a href="assets/cv.pdf" class="btn secondary-btn" download><i class="fas fa-file-arrow-down"></i> Baixar CV</a>
+          </div>
+          <div class="hero-badges">
+            <span class="chip"><i class="fab fa-java"></i> Java</span>
+            <span class="chip"><i class="fas fa-leaf"></i> Spring</span>
+            <span class="chip"><i class="fas fa-database"></i> PostgreSQL</span>
+            <span class="chip"><i class="fab fa-docker"></i> Docker</span>
+            <span class="chip"><i class="fab fa-git-alt"></i> Git</span>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-photo-wrap">
+            <img class="hero-photo" src="Perfil.jpeg" alt="Foto de Bernardo" loading="lazy" decoding="async" fetchpriority="high" />
+          </div>
+        </div>
+      </div>`
+    hero.insertAdjacentHTML('afterbegin', block)
+    ;['.hero-badge', '.typed-text', '.hero-description'].forEach((sel) => {
+      const el = hero.querySelector(sel)
+      if (el) el.remove()
+    })
+    const oldH1 = hero.querySelector(':scope > h1')
+    if (oldH1) oldH1.remove()
   }
 
   setupMobileMenu() {
@@ -277,6 +368,18 @@ class PortfolioApp {
 
     // Show/hide back to top button
     this.toggleBackToTop()
+
+    // Subtle parallax on hero photo (respect reduced motion)
+    try {
+      const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (!reduceMotion) {
+        const photo = document.querySelector('.hero-photo')
+        if (photo) {
+          const offset = Math.min(30, scrollY * 0.03)
+          photo.style.transform = `translateY(${offset}px) scale(1.0)`
+        }
+      }
+    } catch (_) {}
   }
 
   updateActiveNavLink(targetId) {
@@ -357,6 +460,9 @@ class PortfolioApp {
     if (!projectsContainer || !userInfoContainer) return
 
     try {
+      // First render curated projects
+      this.displayCuratedProjects(projectsContainer)
+
       // Load user info and repositories in parallel
       const [userResponse, reposResponse] = await Promise.all([
         fetch(`https://api.github.com/users/${CONFIG.GITHUB_USERNAME}`),
@@ -373,14 +479,37 @@ class PortfolioApp {
       // Display user info
       this.displayGitHubUserInfo(userInfoContainer, userData)
 
-      // Display repositories
-      this.displayGitHubRepos(projectsContainer, repos)
+      // Display repositories (append after curated)
+      this.displayGitHubRepos(projectsContainer, repos, true)
 
       state.projectsLoaded = true
     } catch (error) {
       console.error("Error loading GitHub projects:", error)
-      this.displayError(projectsContainer, "Erro ao carregar projetos do GitHub. Tente novamente mais tarde.")
+      if (!projectsContainer.querySelector('.project-card')) {
+        this.displayError(projectsContainer, "Erro ao carregar projetos do GitHub. Tente novamente mais tarde.")
+      }
     }
+  }
+
+  displayCuratedProjects(container) {
+    const frag = document.createDocumentFragment()
+    CURATED_PROJECTS.forEach((p) => {
+      const card = document.createElement('div')
+      card.className = 'project-card'
+      card.innerHTML = `
+        <div class="project-info">
+          <h3 class="project-title">${p.title}</h3>
+          <p class="project-description">${p.pitch}</p>
+          <div class="project-tech">${p.techs.map(t=>`<span class="tech-tag">${t}</span>`).join('')}</div>
+          <div class="project-links">
+            <a class="project-link" href="${p.codeUrl}" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
+            ${p.demoUrl ? `<a class="project-link" href="${p.demoUrl}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> Demo</a>`: ''}
+          </div>
+        </div>`
+      frag.appendChild(card)
+    })
+    container.innerHTML = ''
+    container.appendChild(frag)
   }
 
   displayGitHubUserInfo(container, userData) {
@@ -407,12 +536,11 @@ class PortfolioApp {
     `
   }
 
-  displayGitHubRepos(container, repos) {
-    container.innerHTML = ""
-
+  displayGitHubRepos(container, repos, append = false) {
+    if (!append) container.innerHTML = ""
     repos.forEach((repo, index) => {
       const projectCard = this.createProjectCard(repo)
-      projectCard.style.animationDelay = `${index * 0.1}s`
+      projectCard.style.animationDelay = `${index * 0.05}s`
       projectCard.classList.add("fade-in")
       container.appendChild(projectCard)
     })

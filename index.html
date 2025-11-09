@@ -12,7 +12,10 @@
   <!-- Added Google Fonts for better typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="style.css" rel="stylesheet" type="text/css" />
@@ -42,7 +45,7 @@
       <div class="logo">
         <!-- Enhanced logo with icon -->
         <i class="fas fa-code"></i>
-        <h1>Bernardo<span class="highlight">.dev</span></h1>
+        <h1 class="brand-name">Bernardo<span class="highlight">.dev</span></h1>
       </div>
       <div class="nav-items" id="nav-items" role="navigation" aria-label="Navegacao principal">
         <a href="#home" class="active">Início</a>
@@ -50,6 +53,15 @@
         <a href="#skills">Habilidades</a>
         <a href="#projects">Projetos</a>
         <a href="#contact">Contato</a>
+      </div>
+      <div class="nav-actions">
+        <a class="btn secondary-btn cv-only" href="assets/cv.pdf" download>
+          <i class="fas fa-file-arrow-down"></i>
+          Download CV
+        </a>
+        <button id="theme-toggle" class="btn" aria-label="Alternar tema">
+          <i class="fas fa-moon"></i>
+        </button>
       </div>
       <button class="menu-toggle" aria-controls="nav-items" aria-expanded="false" aria-label="Abrir menu de navegacao">
         <span></span>
@@ -63,7 +75,7 @@
     <div class="particles-container" id="particles-home"></div>
     <div class="hero-content">
       <!-- Enhanced hero content with better structure -->
-      <div class="hero-badge">
+      <div class="hero-badge" style="display:none;">
         <i class="fas fa-code"></i>
         <span>Desenvolvedor de Softwares</span>
       </div>
