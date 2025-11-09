@@ -116,6 +116,9 @@ class PortfolioApp {
     // Project filters
     this.setupProjectFilters()
 
+    // Load more projects
+    this.setupLoadMore()
+
     // Back to top button
     this.setupBackToTop()
 
@@ -133,6 +136,8 @@ class PortfolioApp {
       menuToggle.addEventListener("click", () => {
         menuToggle.classList.toggle("active")
         navItems.classList.toggle("active")
+        const expanded = menuToggle.getAttribute("aria-expanded") === "true"
+        menuToggle.setAttribute("aria-expanded", String(!expanded))
       })
 
       // Close menu when clicking on links
@@ -151,6 +156,40 @@ class PortfolioApp {
         }
       })
     }
+  }
+
+  setupLoadMore() {
+    const btn = document.getElementById('load-more-projects')
+    const container = document.getElementById('projects-container')
+    if (!btn || !container) return
+
+    if (!state._reposPage) state._reposPage = 1
+
+    btn.addEventListener('click', async () => {
+      btn.disabled = true
+      const original = btn.innerHTML
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Carregando...'
+      try {
+        const next = state._reposPage + 1
+        const res = await fetch(`https://api.github.com/users/${CONFIG.GITHUB_USERNAME}/repos?sort=updated&per_page=12&page=${next}`)
+        if (!res.ok) throw new Error('GitHub API error')
+        const more = await res.json()
+        if (!Array.isArray(more) || more.length === 0) {
+          btn.innerHTML = 'Todos os projetos foram listados'
+          btn.disabled = true
+          return
+        }
+        const sorted = more.sort((a,b)=>(b.stargazers_count||0)-(a.stargazers_count||0))
+        this.displayGitHubRepos(container, sorted, true)
+        state._reposPage = next
+      } catch (e) {
+        console.error(e)
+        this.showNotification('Não foi possível carregar mais projetos agora.', 'error')
+        btn.innerHTML = original
+      } finally {
+        if (!btn.disabled) btn.innerHTML = original
+      }
+    })
   }
 
   setupSmoothScrolling() {
@@ -321,14 +360,15 @@ class PortfolioApp {
       // Load user info and repositories in parallel
       const [userResponse, reposResponse] = await Promise.all([
         fetch(`https://api.github.com/users/${CONFIG.GITHUB_USERNAME}`),
-        fetch(`https://api.github.com/users/${CONFIG.GITHUB_USERNAME}/repos?sort=updated&per_page=12`),
+        fetch(`https://api.github.com/users/${CONFIG.GITHUB_USERNAME}/repos?sort=updated&per_page=12&page=1`),
       ])
 
       if (!userResponse.ok || !reposResponse.ok) {
         throw new Error("Failed to fetch GitHub data")
       }
 
-      const [userData, repos] = await Promise.all([userResponse.json(), reposResponse.json()])
+      const [userData, reposRaw] = await Promise.all([userResponse.json(), reposResponse.json()])
+      const repos = reposRaw.sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0))
 
       // Display user info
       this.displayGitHubUserInfo(userInfoContainer, userData)
@@ -513,8 +553,12 @@ class PortfolioApp {
   }
 
   async handleFormSubmission(form) {
-    const formData = new FormData(form)
-    const data = Object.fromEntries(formData)
+    const data = {
+      name: form.querySelector('#name')?.value.trim() || '',
+      email: form.querySelector('#email')?.value.trim() || '',
+      subject: form.querySelector('#subject')?.value.trim() || '',
+      message: form.querySelector('#message')?.value.trim() || ''
+    }
 
     // Validate all fields
     const inputs = form.querySelectorAll("input, textarea")
@@ -581,6 +625,9 @@ class PortfolioApp {
       </div>
     `
 
+    notification.setAttribute('role', 'status')
+    notification.setAttribute('aria-live', 'polite')
+
     // Add styles
     Object.assign(notification.style, {
       position: "fixed",
@@ -644,8 +691,15 @@ class PortfolioApp {
   createParticles() {
     const containers = document.querySelectorAll(".particles-container")
 
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
     containers.forEach((container) => {
       if (!container) return
+
+      if (reduceMotion) {
+        container.innerHTML = ""
+        return
+      }
 
       container.innerHTML = ""
 

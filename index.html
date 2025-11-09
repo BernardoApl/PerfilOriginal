@@ -16,8 +16,19 @@
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="style.css" rel="stylesheet" type="text/css" />
+  <link rel="icon" type="image/jpeg" href="Perfil.jpeg">
+  <meta name="theme-color" content="#000000">
+  <meta property="og:title" content="Bernardo Lopes — Desenvolvedor e Engenheiro de Software">
+  <meta property="og:description" content="Portifolio, projetos, habilidades e contato.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="Perfil.jpeg">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bernardo Lopes — Desenvolvedor e Engenheiro de Software">
+  <meta name="twitter:description" content="Portifolio, projetos, habilidades e contato.">
 </head>
 <body>
+  <a href="#home" class="skip-link">Pular para o conteudo</a>
   <!-- Added loading screen for better UX -->
   <div id="loading-screen" class="loading-screen">
     <div class="loading-content">
@@ -33,18 +44,18 @@
         <i class="fas fa-code"></i>
         <h1>Bernardo<span class="highlight">.dev</span></h1>
       </div>
-      <div class="nav-items">
+      <div class="nav-items" id="nav-items" role="navigation" aria-label="Navegacao principal">
         <a href="#home" class="active">Início</a>
         <a href="#about">Sobre</a>
         <a href="#skills">Habilidades</a>
         <a href="#projects">Projetos</a>
         <a href="#contact">Contato</a>
       </div>
-      <div class="menu-toggle">
+      <button class="menu-toggle" aria-controls="nav-items" aria-expanded="false" aria-label="Abrir menu de navegacao">
         <span></span>
         <span></span>
         <span></span>
-      </div>
+      </button>
     </div>
   </header>
 
@@ -62,6 +73,7 @@
         Estudante de Engenharia de Software apaixonado por criar soluções inovadoras 
         e eficientes que transformam ideias em realidade digital.
       </p>
+      <p class="hero-extra">Construo produtos úteis com foco em clareza, velocidade e experiência.</p>
       <div class="cta-buttons">
         <a href="#contact" class="btn primary-btn">
           <i class="fas fa-envelope"></i>
@@ -73,10 +85,10 @@
         </a>
       </div>
       <div class="social-links">
-        <a href="https://github.com/BernardoApl?tab=repositories" target="_blank" title="GitHub">
+        <a href="https://github.com/BernardoApl?tab=repositories" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub de Bernardo Lopes">
           <i class="fab fa-github"></i>
         </a>
-        <a href="https://www.linkedin.com/in/bernardo-lopes-3500b92b6/" target="_blank" title="LinkedIn">
+        <a href="https://www.linkedin.com/in/bernardo-lopes-3500b92b6/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn de Bernardo Lopes">
           <i class="fab fa-linkedin"></i>
         </a>
       </div>
@@ -96,7 +108,7 @@
       <div class="about-content">
         <div class="about-img">
           <div class="img-wrapper">
-            <img src="Perfil.jpeg">
+            <img src="Perfil.jpeg" alt="Foto de perfil de Bernardo Lopes" loading="lazy">
             <!-- Added floating elements for visual interest -->
             <div class="floating-element element-1">
               <i class="fas fa-code"></i>
@@ -159,36 +171,51 @@
           <div class="tech-icons">
             <div class="tech-icon" title="Java">
               <i class="fab fa-java"></i>
+              <span class="tech-label">Java</span>
             </div>
             <div class="tech-icon" title="HTML5">
               <i class="fab fa-html5"></i>
+              <span class="tech-label">HTML5</span>
             </div>
             <div class="tech-icon" title="CSS3">
               <i class="fab fa-css3-alt"></i>
+              <span class="tech-label">CSS3</span>
             </div>
             <div class="tech-icon" title="JavaScript">
               <i class="fab fa-js-square"></i>
+              <span class="tech-label">JavaScript</span>
+            </div>
+            <div class="tech-icon" title="TypeScript">
+              <span class="tech-ts" aria-hidden="true">TS</span>
+              <span class="tech-label">TypeScript</span>
             </div>
             <div class="tech-icon" title="C">
               <i class="fas fa-code"></i>
+              <span class="tech-label">C</span>
             </div>
             <div class="tech-icon" title="C++">
               <i class="fas fa-code"></i>
+              <span class="tech-label">C++</span>
             </div>
             <div class="tech-icon" title="Git">
               <i class="fab fa-git-alt"></i>
+              <span class="tech-label">Git</span>
             </div>
             <div class="tech-icon" title="GitHub">
               <i class="fab fa-github"></i>
+              <span class="tech-label">GitHub</span>
             </div>
-            <div class="tech-icon" title="N8N">
+            <div class="tech-icon" title="n8n">
               <i class="fas fa-project-diagram"></i>
+              <span class="tech-label">n8n</span>
             </div>
             <div class="tech-icon" title="VSCode">
               <i class="fas fa-code"></i>
+              <span class="tech-label">VSCode</span>
             </div>
             <div class="tech-icon" title="React">
               <i class="fab fa-react"></i>
+              <span class="tech-label">React</span>
             </div>
           </div>
         </div>
@@ -230,6 +257,16 @@
           <div class="loading-spinner"></div>
           <p>Carregando projetos do GitHub...</p>
         </div>
+      </div>
+      <div class="text-center" style="margin-top: 1.5rem;">
+        <button id="load-more-projects" class="btn secondary-btn">
+          <i class="fas fa-plus"></i>
+          Mostrar mais projetos
+        </button>
+        <a class="btn primary-btn" href="https://github.com/BernardoApl?tab=repositories" target="_blank" rel="noopener noreferrer" style="margin-left: .5rem;">
+          <i class="fab fa-github"></i>
+          Ver todos no GitHub
+        </a>
       </div>
     </div>
   </section>
@@ -273,7 +310,7 @@
           </div>
           
           <!-- Added availability status -->
-          <div class="availability-status">
+          <div class="availability-status" aria-live="polite">
             <div class="status-indicator available"></div>
             <span>Disponível para novos projetos</span>
           </div>
@@ -283,11 +320,11 @@
           <div class="form-row">
             <div class="form-group">
               <label for="name">Nome *</label>
-              <input type="text" id="name" placeholder="Seu nome completo" required>
+              <input type="text" id="name" name="name" autocomplete="name" placeholder="Seu nome completo" required>
             </div>
             <div class="form-group">
               <label for="email">Email *</label>
-              <input type="email" id="email" placeholder="seu@email.com" required>
+              <input type="email" id="email" name="email" autocomplete="email" placeholder="seu@email.com" required>
             </div>
           </div>
           <div class="form-group">
@@ -319,10 +356,10 @@
         </div>
         <div class="footer-right">
           <div class="social-links">
-            <a href="https://github.com/BernardoApl?tab=repositories" target="_blank" title="GitHub">
+            <a href="https://github.com/BernardoApl?tab=repositories" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub de Bernardo Lopes">
               <i class="fab fa-github"></i>
             </a>
-            <a href="https://www.linkedin.com/in/bernardo-lopes-3500b92b6/" target="_blank" title="LinkedIn">
+            <a href="https://www.linkedin.com/in/bernardo-lopes-3500b92b6/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn de Bernardo Lopes">
               <i class="fab fa-linkedin"></i>
             </a>
           </div>
@@ -336,8 +373,22 @@
     <i class="fas fa-chevron-up"></i>
   </button>
 
-  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script src="script.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Bernardo Lopes",
+    "jobTitle": "Desenvolvedor e Estudante de Engenharia de Software",
+    "email": "mailto:b.lopes.software@gmail.com",
+    "image": "Perfil.jpeg",
+    "sameAs": [
+      "https://github.com/BernardoApl",
+      "https://www.linkedin.com/in/bernardo-lopes-3500b92b6/"
+    ]
+  }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
