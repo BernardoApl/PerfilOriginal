@@ -1648,3 +1648,8 @@ html {
 .btn.outline-btn:hover { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(22,219,101,.15); }
 .hero-photo { width: min(460px, 38vw); max-width: 90%; border-radius: 18px; filter: grayscale(100%); opacity: .78; display:block; margin-left: auto; box-shadow: 0 30px 80px rgba(0,0,0,.4), 0 0 32px rgba(22,219,101,.08); }
 @media (max-width: 1024px) { .hero-inner { grid-template-columns: 1fr; gap: 32px; text-align: left; } .hero-photo { width: min(520px, 90vw); margin: 0 auto; } }
+/* Centered nav layout */
+.navbar { display:flex; align-items:center; gap:16px; }
+.logo { flex:0 0 auto; }
+.nav-items { flex:1 1 auto; display:flex; justify-content:center; }
+.nav-actions { flex:0 0 auto; }

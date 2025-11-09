@@ -487,7 +487,7 @@ class PortfolioApp {
     const projectsContainer = document.getElementById("projects-container")
     const userInfoContainer = document.getElementById("github-user-info")
 
-    if (!projectsContainer || !userInfoContainer) return
+    if (!projectsContainer) return
 
     try {
       // First render curated projects
@@ -506,8 +506,12 @@ class PortfolioApp {
       const [userData, reposRaw] = await Promise.all([userResponse.json(), reposResponse.json()])
       const repos = reposRaw.sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0))
 
-      // Display user info
-      this.displayGitHubUserInfo(userInfoContainer, userData)
+      // Display user info (optional)
+      if (userInfoContainer) {
+        this.displayGitHubUserInfo(userInfoContainer, userData);
+        const details = userInfoContainer.querySelector('.github-user-details');
+        if (details && !details.querySelector('.projects-tagline')) { details.insertAdjacentHTML('beforeend', '<p class="projects-tagline">Projetos recentes do GitHub</p>') }
+      }
 
       // Display repositories (append after curated)
       this.displayGitHubRepos(projectsContainer, repos, true)
@@ -572,6 +576,7 @@ class PortfolioApp {
       const projectCard = this.createProjectCard(repo)
       projectCard.style.animationDelay = `${index * 0.05}s`
       projectCard.classList.add("fade-in")
+      this.enrichProjectCard(projectCard, repo)
       container.appendChild(projectCard)
     })
   }
@@ -934,9 +939,37 @@ class PortfolioApp {
       </div>
     `
   }
-}
+  // Short relative time like "3d", "5h", "12m"
+  relativeTime(dateStr) {
+    try {
+      const then = new Date(dateStr).getTime()
+      const now = Date.now()
+      const diff = Math.max(0, now - then)
+      const m = 60 * 1000, h = 60 * m, d = 24 * h
+      if (diff < h) return `${Math.floor(diff / m)}m`
+      if (diff < d) return `${Math.floor(diff / h)}h`
+      return `${Math.floor(diff / d)}d`
+    } catch (_) { return '' }
+  }
 
-document.addEventListener("DOMContentLoaded", () => {
+  enrichProjectCard(card, repo) {
+    try {
+      const info = card.querySelector('.project-info')
+      if (!info) return
+      const license = (repo.license && (repo.license.spdx_id || repo.license.name)) || ''
+      const updated = this.relativeTime(repo.pushed_at)
+      const branch = repo.default_branch || 'main'
+      const metaHtml = `
+        <div class="project-meta" style="margin:6px 0 10px; color: var(--text-muted); font-size:.9rem; display:flex; flex-wrap:wrap; gap:10px;">
+          ${license ? `<span class="meta-item"><i class="fas fa-balance-scale"></i> ${license}</span>` : ""}
+          <span class="meta-item"><i class="far fa-clock"></i> ${updated}</span>
+          <span class="meta-item"><i class="fas fa-code-branch"></i> ${branch}</span>
+        </div>`
+      const p = info.querySelector('p')
+      if (p) p.insertAdjacentHTML('afterend', metaHtml)
+      else info.insertAdjacentHTML('afterbegin', metaHtml)
+    } catch (_) { }
+  }`r`n`r`ndocument.addEventListener("DOMContentLoaded", () => {
   new PortfolioApp()
 })
 
@@ -953,6 +986,16 @@ document.addEventListener("visibilitychange", () => {
     })
   }
 })
+
+
+
+
+
+
+
+
+
+
 
 
 
