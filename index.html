@@ -1,20 +1,20 @@
-﻿<!DOCTYPE html>
-<html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bernardo Lopes - Desenvolvedor & Engenheiro de Software</title>
+  <title>Bernardo Lopes - Desenvolvedor &amp; Engenheiro de Software</title>
   <meta name="description" content="Portfólio de Bernardo Lopes — Backend (Java/Spring), APIs e automação. Transformo requisitos em software robusto.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Space+Grotesk:wght@500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Space+Grotesk:wght@500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="style.css" rel="stylesheet" type="text/css" />
+  <link href="style.css" rel="stylesheet" type="text/css">
   <link rel="icon" type="image/jpeg" href="Perfil.jpeg">
   <meta name="theme-color" content="#000000">
   <meta property="og:title" content="Bernardo Augusto — Engenharia de Software">
@@ -28,12 +28,14 @@
 </head>
 <body>
   <a href="#home" class="skip-link">Pular para o conteúdo</a>
-  <div id="loading-screen" class="loading-screen">
+  <div id="loading-screen" class="loading-screen" role="status" aria-live="polite">
     <div class="loading-content">
       <div class="loading-spinner"></div>
       <p>Carregando portfólio...</p>
     </div>
   </div>
+
+  <div class="ed-welcome-bg" aria-hidden="true">Welcome</div>
 
   <header>
     <div class="navbar">
@@ -41,19 +43,17 @@
         <div class="logo-mark" aria-hidden="true"><span></span><span></span><span></span></div>
         <h1 class="brand-name">Bernardo<span class="highlight">.dev</span></h1>
       </div>
-      <div class="nav-items" id="nav-items" role="navigation" aria-label="Navegação principal">
+      <nav class="nav-items" id="nav-items" aria-label="Navegação principal">
         <a href="#home" class="active">Início</a>
         <a href="#about">Sobre</a>
         <a href="#skills">Habilidades</a>
         <a href="#projects">Projetos</a>
         <a href="#contact">Contato</a>
-      </div>
+      </nav>
       <div class="nav-actions">
-        <a class="btn secondary-btn cv-only" href="assets/cv.pdf" download>
-          <i class="fas fa-file-arrow-down"></i>
-          Download CV
-        </a>
-        <button id="theme-toggle" class="btn" aria-label="Alternar tema"><i class="fas fa-moon"></i></button>
+        <button id="theme-toggle" class="btn" aria-label="Alternar tema">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </button>
       </div>
       <button class="menu-toggle" aria-controls="nav-items" aria-expanded="false" aria-label="Abrir menu de navegação">
         <span></span><span></span><span></span>
@@ -61,104 +61,256 @@
     </div>
   </header>
 
-  <section id="home" class="hero">
-    <div class="hero-inner">
-      <div class="hero-left">
-        <h1 class="hero-heading">Bernardo Augusto</h1>
-        <div class="hero-subtitle">Backend • Java • Spring Boot</div>
-        <p class="hero-desc">Transformo requisitos em software robusto. APIs bem projetadas, sistemas estáveis e foco em qualidade.</p>
-        <div class="hero-ctas">
-          <a href="#projects" class="btn primary-btn">Ver Projetos</a>
-          <a href="assets/cv.pdf" class="btn outline-btn cv-only" download>Download CV</a>
-        </div>
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-mini-nav" aria-label="Navegação rápida">
+        <a href="#about">Sobre</a>
+        <a href="#contact">Contato</a>
       </div>
-      <div class="hero-right">
-        <img src="Perfil.jpeg" alt="Foto de Bernardo" class="hero-photo" loading="lazy" decoding="async">
-      </div>
-    </div>
-  </section>
 
-  <section id="about" class="about">
-    <div class="container">
-      <h2 class="section-title">Sobre Mim</h2>
-      <div class="about-content">
-        <div class="about-img"><div class="img-wrapper"><img src="Perfil.jpeg" alt="Foto de perfil de Bernardo Lopes" loading="lazy"></div></div>
-        <div class="about-text">
-          <div class="about-intro">
-            <h3>Desenvolvedor & Futuro Engenheiro de Software</h3>
-            <p class="intro-text">Sou estudante na PUC Minas com foco em backend, APIs e bancos de dados. Gosto de transformar modelos e requisitos em código limpo, testável e performático.</p>
+      <div class="hero-rail" aria-hidden="true">
+        <div class="rail-inner">
+          <div class="rail-icons">
+            <a href="mailto:b.lopes.software@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+            <a href="https://github.com/BernardoApl" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/bernardo-lopes-3500b92b6/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
           </div>
-          <div class="about-details">
-            <p>Nascido em 2005, acredito que tecnologia muda vidas. Busco boas práticas, qualidade e clareza em cada entrega.</p>
-          </div>
+          <div class="rail-text"> Software Developer // Software Manager</div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section id="projects" class="projects">
-    <div class="container">
-      <h2 class="section-title">Meus Projetos</h2>
-      <div class="github-profile"><div id="github-user-info" class="github-user-info"><div class="loading">Carregando informações do GitHub...</div></div></div>
-<div class="project-filters">
-        <button class="filter-btn active" data-filter="all">Todos</button>
-        <button class="filter-btn" data-filter="java">Java</button>
-        <button class="filter-btn" data-filter="cpp">C++</button>
-        <button class="filter-btn" data-filter="javascript">JavaScript</button>
-        <button class="filter-btn" data-filter="web">Web</button>
+      <div class="hero-dots" role="tablist" aria-label="Destaques do portfólio">
+        <button type="button" class="dot active" aria-label="Destaque 1"></button>
+        <button type="button" class="dot" aria-label="Destaque 2"></button>
+        <button type="button" class="dot" aria-label="Destaque 3"></button>
+        <button type="button" class="dot" aria-label="Destaque 4"></button>
+        <button type="button" class="dot" aria-label="Destaque 5"></button>
+        <button type="button" class="dot" aria-label="Destaque 6"></button>
+        <button type="button" class="dot" aria-label="Destaque 7"></button>
+        <button type="button" class="dot" aria-label="Destaque 8"></button>
       </div>
-      <div id="projects-container" class="projects-container">
-        <div class="loading">
-          <div class="loading-spinner"></div>
-          <p>Carregando projetos do GitHub...</p>
-        </div>
-      </div>
-      <div class="text-center" style="margin-top:1.5rem;">
-        <button id="load-more-projects" class="btn secondary-btn"><i class="fas fa-plus"></i> Mostrar mais projetos</button>
-        <a class="btn primary-btn" href="https://github.com/BernardoApl?tab=repositories" target="_blank" rel="noopener">Ver todos no GitHub</a>
-      </div>
-    </div>
-  </section>
 
-  <section id="contact" class="contact">
-    <div class="container">
-      <h2 class="section-title">Vamos Trabalhar Juntos</h2>
-      <div class="contact-content">
-        <div class="contact-info">
-          <div class="contact-item"><div class="contact-icon"><i class="fas fa-envelope"></i></div><div class="contact-details"><h4>Email</h4><p>b.lopes.software@gmail.com</p></div></div>
-          <div class="contact-item"><div class="contact-icon"><i class="fas fa-phone"></i></div><div class="contact-details"><h4>Telefone</h4><p>+55 (31) 97182-0224</p></div></div>
-          <div class="availability-status" aria-live="polite"><div class="status-indicator available"></div><span>Disponível para novos projetos</span></div>
-        </div>
-        <form id="contact-form" class="contact-form">
-          <div class="form-row">
-            <div class="form-group"><label for="name">Nome *</label><input type="text" id="name" name="name" autocomplete="name" placeholder="Seu nome completo" required></div>
-            <div class="form-group"><label for="email">Email *</label><input type="email" id="email" name="email" autocomplete="email" placeholder="seu@email.com" required></div>
+      <div class="hero-inner">
+        <div class="hero-left">
+          <p class="super-title"></p>
+          <p class="hero-subtitle">Olá, sou</p>
+          <h1 class="hero-title">Bernardo Lopes</h1>
+          <p class="hero-role"><span id="hero-roles">Contato</span></p>
+          <p class="hero-tagline">
+            Produção de Software, Gerenciamento de Software, Site Reliability Engineering (SRE) e Automação.
+          </p>
+          <div class="hero-ctas">
+            <a href="#projects" class="btn primary-btn">Ver projetos</a>
+            <a href="#contact" class="btn outline-btn">Falar comigo</a>
           </div>
-          <div class="form-group"><label for="subject">Assunto *</label><input type="text" id="subject" name="subject" autocomplete="off" placeholder="Sobre o que você gostaria de falar?" required></div>
-          <div class="form-group"><label for="message">Mensagem *</label><textarea id="message" name="message" placeholder="Conte-me mais sobre seu projeto..." required></textarea></div>
-          <button type="submit" class="btn primary-btn"><i class="fas fa-paper-plane"></i> <span>Enviar Mensagem</span></button>
-        </form>
+        </div>
       </div>
-    </div>
-  </section>
+
+      <div class="ed-scroll-text">scroll</div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="container">
+        <h2 class="section-title center-title">Sobre mim</h2>
+        <div class="about-content">
+          <div class="about-text">
+            <p>
+              Minha especialidade está em Site Reliability Engineering (SRE), fortalecida por um foco em Software e Software Management. Minha paixão está em construir plataformas robustas para clientes, criar infraestrutura como código de maneira sustentável e arquitetar sistemas de forma simples e direta.
+            </p>
+            <p>
+              Minha experiência como desenvolvedor, com foco em mini projetos em Java, React e Frontend (HTML, CSS, JS), me permite criar plataformas que não são apenas confiáveis e fáceis de manter, mas também prazerosas de usar.
+            </p>
+            <div class="tech-stack">
+              <h3 class="tech-title">Tecnologias</h3>
+              <p class="tech-intro">Stacks e ferramentas com as quais trabalho diariamente:</p>
+              <div class="tech-table-wrapper">
+                <table align="center">
+                  <tr>
+                    <td align="center" width="80">
+                      <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" width="50" height="50" alt="Logo Java"><br><sub><b>Java</b></sub>
+                    </td>
+                    <td align="center" width="80">
+                      <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" width="50" height="50" alt="Logo TypeScript"><br><sub><b>TypeScript</b></sub>
+                    </td>
+                    <td align="center" width="80">
+                      <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" width="50" height="50" alt="Logo JavaScript"><br><sub><b>JavaScript</b></sub>
+                    </td>
+                    <td align="center" width="80">
+                      <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" width="50" height="50" alt="Logo HTML5"><br><sub><b>HTML5</b></sub>
+                    </td>
+                    <td align="center" width="80">
+                      <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg" width="50" height="50" alt="Logo CSS3"><br><sub><b>CSS3</b></sub>
+                    </td>
+                    <td align="center" width="80">
+                      <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" width="50" height="50" alt="Logo C++"><br><sub><b>C++</b></sub>
+                    </td>
+                    <td align="center" width="80">
+                      <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" width="50" height="50" alt="Logo React"><br><sub><b>React</b></sub>
+                    </td>
+                    <td align="center" width="80">
+                      <img src="https://avatars.githubusercontent.com/u/45487711?s=200&v=4" width="50" height="50" alt="Logo n8n"><br><sub><b>n8n</b></sub>
+                    </td>
+                    <td align="center" width="80">
+                      <img src="https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg" width="50" height="50" alt="Logo Firebase"><br><sub><b>Firebase</b></sub>
+                    </td>
+                    <td align="center" width="80">
+                      <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg" width="50" height="50" alt="Logo PostgreSQL"><br><sub><b>PostgreSQL</b></sub>
+                    </td>
+                    <td align="center" width="80">
+                      <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/spring/spring-original.svg" width="50" height="50" alt="Logo Spring Boot"><br><sub><b>Spring Boot</b></sub>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="skills">
+      <div class="container">
+        <div class="section-heading curriculo-heading">
+          <div>
+            <h2 class="section-title">Currículo em destaque</h2>
+            <p class="section-intro">Visualize diretamente o arquivo LaTeX do currículo e faça o download em TEX ou PDF.</p>
+          </div>
+          <div class="cv-actions">
+            <a class="btn primary-btn" id="download-cv-pdf" href="CV_main.pdf" download>
+              <i class="fas fa-file-pdf" aria-hidden="true"></i>
+              <span>Baixar PDF</span>
+            </a>
+            <a class="btn secondary-btn" id="cv-github" href="https://github.com/BernardoApl/CV" target="_blank" rel="noopener">
+              <i class="fab fa-github" aria-hidden="true"></i>
+              <span>Ver código LaTeX</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="curriculo-wrapper">
+          <div class="curriculo-pdf">
+            <div class="preview-header">
+              <div>
+                <span class="file-name"><i class="fas fa-file-pdf" aria-hidden="true"></i> CV_main.pdf</span>
+                <span class="file-status" id="pdf-status">Carregando visualização...</span>
+              </div>
+              <div class="pdf-actions">
+                <a class="btn secondary-btn small" id="open-cv-pdf" href="CV_main.pdf" target="_blank" rel="noopener">
+                  <i class="fas fa-up-right-from-square" aria-hidden="true"></i>
+                  Abrir CV em nova guia
+                </a>
+              </div>
+            </div>
+            <div class="pdf-frame">
+              <iframe id="cv-pdf-frame" title="Visualização completa do currículo em PDF" loading="lazy"></iframe>
+            </div>
+            <p class="preview-hint" id="pdf-feedback">A visualização completa permite conferir o layout final antes de baixar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="projects">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <h2 class="section-title">Projetos recentes</h2>
+            <p class="section-intro">Seleção de estudos e produtos que mostram meu processo completo.</p>
+          </div>
+        </div>
+        <div id="projects-container" class="projects-container" aria-live="polite">
+          <p class="empty-state" id="projects-placeholder">Carregando projetos do GitHub...</p>
+        </div>
+        <div class="text-center">
+          <button id="load-more-projects" class="btn secondary-btn" type="button">
+            <i class="fas fa-plus" aria-hidden="true"></i> Mostrar mais projetos
+          </button>
+          <a class="btn primary-btn" href="https://github.com/BernardoApl?tab=repositories" target="_blank" rel="noopener">Ver todos no GitHub</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2 class="section-title">Contato</h2>
+        <div class="contact-content">
+          <div class="contact-info">
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fas fa-envelope" aria-hidden="true"></i></div>
+              <div class="contact-details">
+                <h4>Email</h4>
+                <p>b.lopes.software@gmail.com</p>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fas fa-phone" aria-hidden="true"></i></div>
+              <div class="contact-details">
+                <h4>Telefone</h4>
+                <p>+55 (31) 97182-0224</p>
+              </div>
+            </div>
+            <div class="availability-status" aria-live="polite">
+              <div class="status-indicator available"></div>
+              <span>Disponível para novos projetos</span>
+            </div>
+          </div>
+          <form id="contact-form" class="contact-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Nome *</label>
+                <input type="text" id="name" name="name" autocomplete="name" placeholder="Seu nome completo" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" autocomplete="email" placeholder="seu@email.com" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="subject">Assunto *</label>
+              <input type="text" id="subject" name="subject" autocomplete="off" placeholder="Sobre o que você gostaria de falar?" required>
+            </div>
+            <div class="form-group">
+              <label for="message">Mensagem *</label>
+              <textarea id="message" name="message" placeholder="Conte-me mais sobre seu projeto..." required></textarea>
+            </div>
+            <button type="submit" class="btn primary-btn">
+              <i class="fas fa-paper-plane" aria-hidden="true"></i>
+              <span>Enviar mensagem</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <footer>
     <div class="container">
       <div class="footer-content">
-        <div class="footer-left"><div class="footer-logo"><i class="fas fa-code"></i><span>Bernardo<span class="highlight">.dev</span></span></div><p>&copy; 2025 Bernardo Lopes. Todos os direitos reservados.</p></div>
-        <div class="footer-right"><div class="social-links"><a href="https://github.com/BernardoApl?tab=repositories" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub de Bernardo Lopes"><i class="fab fa-github"></i></a><a href="https://www.linkedin.com/in/bernardo-lopes-3500b92b6/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn de Bernardo Lopes"><i class="fab fa-linkedin"></i></a></div></div>
+        <div class="footer-left">
+          <div class="footer-logo">
+            <i class="fas fa-code" aria-hidden="true"></i>
+            <span>Bernardo<span class="highlight">.dev</span></span>
+          </div>
+          <p>&copy; 2025 Bernardo Lopes. Todos os direitos reservados.</p>
+        </div>
+        <div class="footer-right">
+          <div class="social-links">
+            <a href="https://github.com/BernardoApl?tab=repositories" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub de Bernardo Lopes"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/bernardo-lopes-3500b92b6/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn de Bernardo Lopes"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
       </div>
     </div>
   </footer>
 
-  <button id="back-to-top" class="back-to-top" title="Voltar ao topo"><i class="fas fa-chevron-up"></i></button>
+  <button id="back-to-top" class="back-to-top" title="Voltar ao topo" aria-label="Voltar ao topo">
+    <i class="fas fa-chevron-up" aria-hidden="true"></i>
+  </button>
 
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Person","name":"Bernardo Lopes","jobTitle":"Desenvolvedor e Estudante de Engenharia de Software","email":"mailto:b.lopes.software@gmail.com","image":"Perfil.jpeg","sameAs":["https://github.com/BernardoApl","https://www.linkedin.com/in/bernardo-lopes-3500b92b6/"]}
   </script>
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
   <script src="script.js" defer></script>
 </body>
 </html>
-
