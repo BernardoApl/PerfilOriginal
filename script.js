@@ -43,6 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.addEventListener("mousemove", (event) => {
+    // Desabilitar parallax em mobile
+    if (window.innerWidth < 768) return
+
     const moveX = (event.clientX - window.innerWidth / 2) * 0.005
     const moveY = (event.clientY - window.innerHeight / 2) * 0.005
 
@@ -81,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (loadingScreen) {
       setTimeout(() => {
         loadingScreen.classList.add("hidden")
-      }, 500)
+      }, 300)
     }
   })
 
@@ -96,12 +99,22 @@ document.addEventListener("DOMContentLoaded", () => {
       menuToggle.setAttribute("aria-expanded", String(isExpanded))
     })
 
+    // Fechar menu ao clicar em um link ou fora do menu
     navItems.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => {
         navItems.classList.remove("active")
         menuToggle.classList.remove("active")
         menuToggle.setAttribute("aria-expanded", "false")
       })
+    })
+
+    // Fechar ao clicar fora
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest(".navbar") && navItems.classList.contains("active")) {
+        navItems.classList.remove("active")
+        menuToggle.classList.remove("active")
+        menuToggle.setAttribute("aria-expanded", "false")
+      }
     })
   }
 
@@ -386,8 +399,15 @@ if (loadMoreBtn) {
         message: formData.get("message")?.trim() || "",
       }
 
+      // Validação robusta de email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!data.name || !data.email || !data.subject || !data.message) {
         showNotification("Preencha todos os campos antes de enviar.", "error")
+        return
+      }
+
+      if (!emailRegex.test(data.email)) {
+        showNotification("Por favor, insira um email válido.", "error")
         return
       }
 
