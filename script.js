@@ -381,6 +381,7 @@ const EMAIL_CONFIG = {
 }
 
   const contactForm = document.getElementById("contact-form")
+  const contactFeedback = document.getElementById("contact-feedback")
 
   if (contactForm) {
     contactForm.addEventListener("submit", (event) => {
@@ -396,12 +397,12 @@ const EMAIL_CONFIG = {
       // Validação robusta de email
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!data.name || !data.email || !data.subject || !data.message) {
-        showNotification("Preencha todos os campos antes de enviar.", "error")
+        setContactFeedback("Preencha todos os campos antes de enviar.", "error")
         return
       }
 
       if (!emailRegex.test(data.email)) {
-        showNotification("Por favor, insira um email válido.", "error")
+        setContactFeedback("Por favor, insira um email válido.", "error")
         return
       }
 
@@ -412,18 +413,24 @@ const EMAIL_CONFIG = {
 
       sendEmail(data)
         .then(() => {
-          showNotification("Mensagem enviada com sucesso! Entrarei em contato em breve.", "success")
+          setContactFeedback("Mensagem enviada com sucesso! Entrarei em contato em breve.", "success")
           contactForm.reset()
         })
         .catch((error) => {
           console.error(error)
-          showNotification("Não foi possível enviar sua mensagem agora. Tente novamente mais tarde.", "error")
+          setContactFeedback("Não foi possível enviar sua mensagem agora. Tente novamente mais tarde.", "error")
         })
         .finally(() => {
           submitBtn.disabled = false
           submitBtn.innerHTML = originalContent
         })
     })
+  }
+
+  function setContactFeedback(message, type = "success") {
+    if (!contactFeedback) return
+    contactFeedback.textContent = message
+    contactFeedback.className = `form-feedback ${type}`
   }
 
   function sendEmail(data) {
@@ -592,6 +599,9 @@ const EMAIL_CONFIG = {
 
   console.log("[v2] Portfolio recarregado com layout responsivo.")
 })
+
+
+
 
 
 

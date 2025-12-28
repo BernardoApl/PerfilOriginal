@@ -10,8 +10,8 @@
   --primary-dark: #11a44b;
   --gradient: linear-gradient(135deg, #16db65, #53bff9);
   --shadow: 0 25px 80px rgba(0, 0, 0, 0.35);
-  --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-title: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-title: "Space Grotesk", "Manrope", system-ui, sans-serif;
 }
 
 .theme-light {
@@ -331,6 +331,34 @@ header {
   flex-wrap: wrap;
   gap: 12px;
   justify-content: center;
+}
+
+.hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.metric {
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  text-align: center;
+}
+
+.metric-value {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.metric-label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.95rem;
 }
 
 .hero-mini-nav {
@@ -767,6 +795,29 @@ section {
   gap: 24px;
 }
 
+.project-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0 12px;
+}
+
+.filter-btn {
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.filter-btn.active {
+  background: var(--gradient);
+  color: #041b0b;
+  border-color: transparent;
+}
+
 .project-card {
   background: var(--surface-alt);
   border-radius: 24px;
@@ -938,6 +989,13 @@ section {
 .contact-details p {
   margin: 0;
   color: var(--text-muted);
+}
+
+.form-feedback {
+  min-height: 20px;
+  margin: 4px 0 10px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
 }
 
 .availability-status {
