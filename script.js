@@ -223,13 +223,6 @@ const loadMoreBtn = document.getElementById("load-more-projects")
 const PROJECTS_API = "https://api.github.com/users/BernardoApl/repos?sort=updated&per_page=100"
 let githubProjects = []
 let visibleCount = 5
-const EMAIL_CONFIG = {
-  serviceId: "service_mq054m8",
-  templateId: "template_lf5n7os",
-  publicKey: "RQ1dSXDL1URKXCGsG",
-  toEmail: "b.lopes.software@gmail.com",
-}
-
 const ensurePlaceholder = () => {
   if (!projectsContainer) return null
   let placeholder = document.getElementById("projects-placeholder")
@@ -294,17 +287,8 @@ const createProjectCard = (project) => {
   repoLink.target = "_blank"
   repoLink.rel = "noopener"
   repoLink.classList.add("primary")
-  repoLink.textContent = "Ver repositório"
+  repoLink.textContent = "Ver repositorio"
   linksWrapper.appendChild(repoLink)
-
-  if (project.homepage) {
-    const liveLink = document.createElement("a")
-    liveLink.href = project.homepage
-    liveLink.target = "_blank"
-    liveLink.rel = "noopener"
-    liveLink.textContent = "Ver demo"
-    linksWrapper.appendChild(liveLink)
-  }
 
   return card
 }
@@ -338,6 +322,8 @@ const renderProjects = () => {
   toggleLoadMore(githubProjects.length)
 }
 
+
+
 const fetchGithubProjects = () => {
   if (!projectsContainer) return
   updatePlaceholder("Carregando projetos do GitHub...")
@@ -370,6 +356,7 @@ const fetchGithubProjects = () => {
         return
       }
       renderProjects()
+      // accumulateLanguages(githubProjects) // gráfico de stacks desativado
     })
     .catch(() => {
       updatePlaceholder("Não foi possível carregar os projetos do GitHub agora. Tente novamente mais tarde.", false)
@@ -384,6 +371,13 @@ if (loadMoreBtn) {
     visibleCount += 5
     renderProjects()
   })
+}
+
+const EMAIL_CONFIG = {
+  serviceId: "service_mq054m8",
+  templateId: "template_lf5n7os",
+  publicKey: "RQ1dSXDL1URKXCGsG",
+  toEmail: "b.lopes.software@gmail.com",
 }
 
   const contactForm = document.getElementById("contact-form")
@@ -476,12 +470,18 @@ if (loadMoreBtn) {
     }, 3000)
   }
 
-  const CV_PDF_PATH = "CV_main.pdf"
+  const CV_FILES = {
+    "pt-br": { label: "PT-BR", path: "CV_main_PT-BR.pdf" },
+    "en-us": { label: "EN-US", path: "CV_main_EN-US.pdf" },
+  }
+  let currentCvLang = "pt-br"
   const downloadPdfBtn = document.getElementById("download-cv-pdf")
   const pdfStatus = document.getElementById("pdf-status")
   const pdfFrame = document.getElementById("cv-pdf-frame")
   const pdfFeedback = document.getElementById("pdf-feedback")
   const openPdfBtn = document.getElementById("open-cv-pdf")
+  const cvLangButtons = document.querySelectorAll("[data-cv-lang]")
+  const fileName = document.querySelector(".file-name")
 
   const setButtonDisabled = (button, disabled) => {
     if (!button) return
@@ -500,42 +500,77 @@ if (loadMoreBtn) {
     }
   }
 
-  setButtonDisabled(downloadPdfBtn, true)
-  setButtonDisabled(openPdfBtn, true)
-  setButtonDisabled(downloadPdfBtn, true)
+  const setActiveLang = (lang) => {
+    cvLangButtons.forEach((btn) => {
+      const isActive = btn.dataset.cvLang === lang
+      btn.classList.toggle("active", isActive)
+      btn.setAttribute("aria-pressed", String(isActive))
+    })
+  }
 
-  fetch(CV_PDF_PATH, { method: "HEAD" })
-    .then((response) => {
-      if (response.ok) {
+  const loadCv = (lang) => {
+    const entry = CV_FILES[lang] || CV_FILES["pt-br"]
+    const resolvedLang = CV_FILES[lang] ? lang : "pt-br"
+    currentCvLang = resolvedLang
+    setActiveLang(resolvedLang)
+
+    const path = entry.path
+    if (fileName) {
+      fileName.innerHTML = '<i class="fas fa-file-pdf" aria-hidden="true"></i> ' + path
+    }
+
+    setButtonDisabled(downloadPdfBtn, true)
+    setButtonDisabled(openPdfBtn, true)
+    if (pdfStatus) pdfStatus.textContent = "Carregando visualizacao..."
+    if (pdfFeedback) pdfFeedback.textContent = "Preparando curriculo..."
+
+    fetch(path, { method: "HEAD" })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("PDF nao encontrado")
+        }
         body.classList.add("cv-available")
         setButtonDisabled(downloadPdfBtn, false)
         setButtonDisabled(openPdfBtn, false)
         if (pdfFrame) {
-          pdfFrame.src = `${CV_PDF_PATH}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`
+          pdfFrame.src = `${path}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`
+        }
+        if (downloadPdfBtn) {
+          downloadPdfBtn.href = path
+        }
+        if (openPdfBtn) {
+          openPdfBtn.href = path
         }
         if (pdfStatus) {
-          pdfStatus.textContent = "Visualização disponível"
+          pdfStatus.textContent = `Visualizacao disponivel (${entry.label})`
         }
         if (pdfFeedback) {
-          pdfFeedback.textContent = "Use os botões acima para baixar ou abrir em nova guia."
+          pdfFeedback.textContent = "Use os botoes acima para baixar ou abrir em nova guia."
         }
-      } else {
-        throw new Error("PDF não encontrado")
-      }
+      })
+      .catch(() => {
+        setButtonDisabled(downloadPdfBtn, true)
+        setButtonDisabled(openPdfBtn, true)
+        if (pdfFrame) {
+          pdfFrame.removeAttribute("src")
+        }
+        if (pdfStatus) {
+          pdfStatus.textContent = `PDF nao encontrado (${entry.label})`
+        }
+        if (pdfFeedback) {
+          pdfFeedback.textContent = "Envie o arquivo para liberar a visualizacao."
+        }
+      })
+  }
+
+  cvLangButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const lang = btn.dataset.cvLang || "pt-br"
+      loadCv(lang)
     })
-    .catch(() => {
-      setButtonDisabled(downloadPdfBtn, true)
-      setButtonDisabled(openPdfBtn, true)
-      if (pdfFrame) {
-        pdfFrame.removeAttribute("src")
-      }
-      if (pdfStatus) {
-        pdfStatus.textContent = "PDF não encontrado"
-      }
-      if (pdfFeedback) {
-        pdfFeedback.textContent = "Não encontramos o arquivo CV_main.pdf. Envie-o para liberar a visualização."
-      }
-    })
+  })
+
+  loadCv(currentCvLang)
 
   if (window.Typed) {
     new window.Typed("#hero-roles", {
@@ -557,3 +592,12 @@ if (loadMoreBtn) {
 
   console.log("[v2] Portfolio recarregado com layout responsivo.")
 })
+
+
+
+
+
+
+
+
+
