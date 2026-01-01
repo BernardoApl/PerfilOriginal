@@ -15,18 +15,18 @@
 }
 
 .theme-light {
-  --bg: #edf0f6;
-  --surface: #f8f9fd;
-  --surface-alt: #eef1f8;
-  --border: rgba(15, 15, 15, 0.08);
-  --text: #0b0d16;
-  --text-muted: #52566b;
-  --muted: #70758a;
-  --shadow: 0 20px 55px rgba(16, 17, 22, 0.08);
+  --bg: #dfe4ec;
+  --surface: #e9edf4;
+  --surface-alt: #d7dce6;
+  --border: rgba(11, 13, 22, 0.12);
+  --text: #0c0f1a;
+  --text-muted: #4b5062;
+  --muted: #63677a;
+  --shadow: 0 20px 45px rgba(9, 11, 19, 0.12);
 }
 
 .theme-light footer {
-  background: #e5e8f0;
+  background: #d4d9e3;
 }
 
 *,
