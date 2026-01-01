@@ -1,613 +1,663 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const body = document.body
-  const themeToggle = document.getElementById("theme-toggle")
-  let isDark = !body.classList.contains("theme-light")
-
-  document.addEventListener("click", (event) => {
-    const disabledLink = event.target.closest('a[aria-disabled="true"]')
-    if (disabledLink) {
-      event.preventDefault()
-      event.stopPropagation()
-    }
-  })
-
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-      isDark = !isDark
-      body.classList.toggle("theme-light")
-
-      const icon = themeToggle.querySelector("i")
-      if (icon) {
-        icon.className = isDark ? "fas fa-moon" : "fas fa-sun"
-      }
-    })
-  }
-
-  const dots = document.querySelectorAll(".hero-dots .dot")
-  if (dots.length > 0) {
-    let currentDot = 0
-
-    dots.forEach((dot, index) => {
-      dot.addEventListener("click", () => {
-        dots.forEach((d) => d.classList.remove("active"))
-        dot.classList.add("active")
-        currentDot = index
-      })
-    })
-
-    setInterval(() => {
-      dots.forEach((d) => d.classList.remove("active"))
-      currentDot = (currentDot + 1) % dots.length
-      dots[currentDot].classList.add("active")
-    }, 3000)
-  }
-
-  document.addEventListener("mousemove", (event) => {
-    // Desabilitar parallax em mobile
-    if (window.innerWidth < 768) return
-
-    const moveX = (event.clientX - window.innerWidth / 2) * 0.005
-    const moveY = (event.clientY - window.innerHeight / 2) * 0.005
-
-    const heroPhoto = document.querySelector(".hero-photo")
-    const welcomeBadge = document.querySelector(".ed-welcome-badge")
-    const heroInner = document.querySelector(".hero-inner")
-
-    if (heroPhoto) {
-      heroPhoto.style.transform = `translate(${moveX}px, ${moveY}px)`
-    }
-
-    if (welcomeBadge) {
-      welcomeBadge.style.transform = `translate(${-moveX * 0.5}px, ${-moveY * 0.5}px)`
-    }
-
-    if (heroInner) {
-      heroInner.style.transform = `translate(${moveX * 0.3}px, ${moveY * 0.3}px)`
-    }
-  })
-
-  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-    anchor.addEventListener("click", (event) => {
-      const target = document.querySelector(anchor.getAttribute("href") || "")
-      if (target) {
-        event.preventDefault()
-        target.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        })
-      }
-    })
-  })
-
-  window.addEventListener("load", () => {
-    const loadingScreen = document.getElementById("loading-screen")
-    if (loadingScreen) {
-      setTimeout(() => {
-        loadingScreen.classList.add("hidden")
-      }, 300)
-    }
-  })
-
-  const menuToggle = document.querySelector(".menu-toggle")
-  const navItems = document.getElementById("nav-items")
-
-  if (menuToggle && navItems) {
-    menuToggle.addEventListener("click", () => {
-      navItems.classList.toggle("active")
-      menuToggle.classList.toggle("active")
-      const isExpanded = navItems.classList.contains("active")
-      menuToggle.setAttribute("aria-expanded", String(isExpanded))
-    })
-
-    // Fechar menu ao clicar em um link ou fora do menu
-    navItems.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        navItems.classList.remove("active")
-        menuToggle.classList.remove("active")
-        menuToggle.setAttribute("aria-expanded", "false")
-      })
-    })
-
-    // Fechar ao clicar fora
-    document.addEventListener("click", (event) => {
-      if (!event.target.closest(".navbar") && navItems.classList.contains("active")) {
-        navItems.classList.remove("active")
-        menuToggle.classList.remove("active")
-        menuToggle.setAttribute("aria-expanded", "false")
-      }
-    })
-  }
-
-  const sections = document.querySelectorAll("section[id]")
-  const navLinks = document.querySelectorAll(".nav-items a")
-
-  window.addEventListener("scroll", () => {
-    let current = ""
-
-    sections.forEach((section) => {
-      if (window.scrollY >= section.offsetTop - 200) {
-        current = section.id
-      }
-    })
-
-    navLinks.forEach((link) => {
-      link.classList.toggle("active", link.getAttribute("href") === `#${current}`)
-    })
-  })
-
-  const backToTop = document.getElementById("back-to-top")
-  if (backToTop) {
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 300) {
-        backToTop.classList.add("visible")
-      } else {
-        backToTop.classList.remove("visible")
-      }
-    })
-
-    backToTop.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" })
-    })
-  }
-
-  document.querySelectorAll(".btn.primary-btn").forEach((button) => {
-    button.addEventListener("click", function (event) {
-      const ripple = document.createElement("span")
-      ripple.classList.add("ripple")
-
-      const rect = this.getBoundingClientRect()
-      const size = Math.max(rect.width, rect.height)
-      const x = event.clientX - rect.left - size / 2
-      const y = event.clientY - rect.top - size / 2
-
-      ripple.style.cssText = `
-        position: absolute;
-        width: ${size}px;
-        height: ${size}px;
-        left: ${x}px;
-        top: ${y}px;
-        background: rgba(255, 255, 255, 0.5);
-        border-radius: 50%;
-        transform: scale(0);
-        animation: ripple-effect 0.6s ease-out;
-        pointer-events: none;
-      `
-
-      this.style.position = "relative"
-      this.style.overflow = "hidden"
-      this.appendChild(ripple)
-
-      setTimeout(() => ripple.remove(), 600)
-    })
-  })
-
-  if (!document.querySelector("#ripple-keyframes")) {
-    const style = document.createElement("style")
-    style.id = "ripple-keyframes"
-    style.textContent = `
-      @keyframes ripple-effect {
-        to {
-          transform: scale(4);
-          opacity: 0;
-        }
-      }
-    `
-    document.head.appendChild(style)
-  }
-
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px",
-  }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = "1"
-        entry.target.style.transform = "translateY(0)"
-      }
-    })
-  }, observerOptions)
-
-  document.querySelectorAll("section").forEach((section) => {
-    if (section.id !== "home") {
-      section.style.opacity = "0"
-      section.style.transform = "translateY(20px)"
-      section.style.transition = "opacity 0.6s ease, transform 0.6s ease"
-      observer.observe(section)
-    }
-  })
-
-const projectsContainer = document.getElementById("projects-container")
-const loadMoreBtn = document.getElementById("load-more-projects")
-const PROJECTS_API = "https://api.github.com/users/BernardoApl/repos?sort=updated&per_page=100"
-let githubProjects = []
-let visibleCount = 5
-const ensurePlaceholder = () => {
-  if (!projectsContainer) return null
-  let placeholder = document.getElementById("projects-placeholder")
-  if (!placeholder) {
-    placeholder = document.createElement("p")
-    placeholder.id = "projects-placeholder"
-    placeholder.className = "empty-state"
-    projectsContainer.prepend(placeholder)
-  }
-  return placeholder
-}
-
-const updatePlaceholder = (message, hidden = false) => {
-  const placeholder = ensurePlaceholder()
-  if (!placeholder) return
-  if (hidden) {
-    placeholder.classList.add("is-hidden")
-  } else {
-    placeholder.textContent = message
-    placeholder.classList.remove("is-hidden")
-  }
-}
-
-const formatStack = (project) => {
-  const mainLang = project.language ? [project.language] : []
-  const topicTags = (project.topics || []).slice(0, 3)
-  const stack = [...mainLang, ...topicTags].filter(Boolean)
-  return stack.length > 0 ? stack : ["Projeto GitHub"]
-}
-
-const formatDate = (dateString) => {
-  try {
-    return new Intl.DateTimeFormat("pt-BR", { month: "short", year: "numeric" }).format(new Date(dateString))
-  } catch {
-    return "Atualizado recentemente"
-  }
-}
-
-const createProjectCard = (project) => {
-  const card = document.createElement("article")
-  card.className = "project-card"
-  const stackItems = formatStack(project)
-    .map((item) => `<li>${item}</li>`)
-    .join("")
-  const subtitle = project.language || "Projeto"
-  const updatedAt = formatDate(project.pushedAt)
-
-  card.innerHTML = `
-    <div class="project-header">
-      <span>${subtitle}</span>
-      <span>${updatedAt}</span>
-    </div>
-    <h3>${project.name}</h3>
-    <p>${project.description}</p>
-    <ul class="project-stack">${stackItems}</ul>
-    <div class="project-links"></div>
-  `
-
-  const linksWrapper = card.querySelector(".project-links")
-  const repoLink = document.createElement("a")
-  repoLink.href = project.url
-  repoLink.target = "_blank"
-  repoLink.rel = "noopener"
-  repoLink.classList.add("primary")
-  repoLink.textContent = "Ver repositorio"
-  linksWrapper.appendChild(repoLink)
-
-  return card
-}
-
-const toggleLoadMore = (total) => {
-  if (!loadMoreBtn) return
-  if (visibleCount >= total) {
-    loadMoreBtn.classList.add("is-hidden")
-  } else {
-    loadMoreBtn.classList.remove("is-hidden")
-  }
-}
-
-const renderProjects = () => {
-  if (!projectsContainer) return
-  const projectsToShow = githubProjects.slice(0, visibleCount)
-  projectsContainer.querySelectorAll(".project-card").forEach((card) => card.remove())
-
-  if (projectsToShow.length === 0) {
-    updatePlaceholder("Nenhum projeto encontrado no GitHub.", false)
-    toggleLoadMore(0)
-    return
-  }
-
-  updatePlaceholder("", true)
-
-  projectsToShow.forEach((project) => {
-    projectsContainer.appendChild(createProjectCard(project))
-  })
-
-  toggleLoadMore(githubProjects.length)
-}
-
-
-
-const fetchGithubProjects = () => {
-  if (!projectsContainer) return
-  updatePlaceholder("Carregando projetos do GitHub...")
-  fetch(PROJECTS_API, {
-    headers: {
-      Accept: "application/vnd.github+json",
+(() => {
+  const translations = {
+    "pt-BR": {
+      metaTitle: "Bernardo Lopes - Engenheiro de Software",
+      metaDescription: "Portfólio de Bernardo Lopes. Backend (Java/Spring), APIs e automação. Transformo requisitos em software robusto.",
+      metaOgDescription: "Backend (Java/Spring), APIs e automação. Transformo requisitos em software robusto.",
+      skipLink: "Pular para o conteúdo",
+      loading: "Carregando portfólio...",
+      navHome: "Início",
+      navAbout: "Sobre",
+      navSkills: "Currículo",
+      navProjects: "Projetos",
+      navContact: "Contato",
+      heroMiniAbout: "Sobre",
+      heroMiniContact: "Contato",
+      heroSuper: "Especialista em backend, SRE e automações",
+      heroSubtitle: "Olá, sou",
+      heroTagline: "Produção de Software, Gestão de Software, SRE e automação. Traduzo requisitos em entregas resilientes.",
+      heroCTAProjects: "Ver projetos",
+      heroCTAContact: "Falar comigo",
+      heroHighlight: "Destaque {n}",
+      railText: "Software Developer // Software Manager",
+      aboutTitle: "Sobre mim",
+      aboutP1: "Especialista em Site Reliability Engineering (SRE), com foco em backend e gestão de software. Construo plataformas robustas, crio infraestrutura como código de forma sustentável e desenho sistemas objetivos.",
+      aboutP2: "Minha experiência em Java, Spring, React e automação me permite entregar soluções confiáveis, fáceis de manter e prazerosas de usar.",
+      techTitle: "Tecnologias",
+      techIntro: "Stacks e ferramentas com as quais trabalho diariamente:",
+      curriculumTitle: "Currículo em destaque",
+      curriculumIntro: "Visualize diretamente o arquivo LaTeX do currículo e faça o download em TEX ou PDF.",
+      cvButtonPDF: "Baixar PDF",
+      cvButtonCode: "Ver código LaTeX",
+      cvOpenNewTab: "Abrir CV em nova guia",
+      cvPreviewHint: "A visualização completa permite conferir o layout final antes de baixar.",
+      cvFileStatusLoading: "Carregando visualização...",
+      cvFileStatusReady: "Pronto para visualizar.",
+      cvFileStatusError: "Não foi possível carregar o arquivo.",
+      projectsTitle: "Projetos recentes",
+      projectsIntro: "Seleção de estudos e produtos que mostram meu processo completo.",
+      projectsLoading: "Carregando projetos do GitHub...",
+      projectsError: "Não foi possível carregar os projetos agora. Tente novamente mais tarde.",
+      projectsEmpty: "Nenhum projeto público encontrado no momento.",
+      loadMore: "Mostrar mais projetos",
+      projectLink: "Abrir no GitHub",
+      projectHomepage: "Ver página",
+      projectUpdated: "Atualizado",
+      projectNoDescription: "Este repositório ainda não possui descrição.",
+      contactTitle: "Contato",
+      availability: "Disponível para novos projetos",
+      nameLabel: "Nome *",
+      emailLabel: "Email *",
+      subjectLabel: "Assunto *",
+      messageLabel: "Mensagem *",
+      namePlaceholder: "Seu nome completo",
+      emailPlaceholder: "seu@email.com",
+      subjectPlaceholder: "Sobre o que você gostaria de falar?",
+      messagePlaceholder: "Conte-me mais sobre seu projeto...",
+      sendButton: "Enviar mensagem",
+      sending: "Enviando...",
+      feedbackSuccess: "Mensagem enviada! Retornarei em breve.",
+      feedbackError: "Não foi possível enviar agora. Tente novamente.",
+      validationName: "Informe seu nome.",
+      validationEmail: "Informe um email válido.",
+      validationSubject: "Informe o assunto.",
+      validationMessage: "Escreva uma mensagem.",
+      backToTop: "Voltar ao topo",
+      footerText: "© 2025 Bernardo Lopes. Todos os direitos reservados."
     },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Erro ao buscar repositórios")
-      }
-      return response.json()
-    })
-    .then((data) => {
-      githubProjects = data
-        .filter((repo) => !repo.fork)
-        .map((repo) => ({
-          name: repo.name.replace(/-/g, " "),
-          description: repo.description || "Repositório sem descrição adicionada ainda.",
-          language: repo.language,
-          topics: repo.topics || [],
-          url: repo.html_url,
-          homepage: repo.homepage,
-          pushedAt: repo.pushed_at,
-        }))
-      if (githubProjects.length === 0) {
-        updatePlaceholder("Ainda não há projetos públicos para mostrar.", false)
-        toggleLoadMore(0)
-        return
-      }
-      renderProjects()
-      // accumulateLanguages(githubProjects) // gráfico de stacks desativado
-    })
-    .catch(() => {
-      updatePlaceholder("Não foi possível carregar os projetos do GitHub agora. Tente novamente mais tarde.", false)
-      toggleLoadMore(0)
-    })
-}
-
-fetchGithubProjects()
-
-if (loadMoreBtn) {
-  loadMoreBtn.addEventListener("click", () => {
-    visibleCount += 5
-    renderProjects()
-  })
-}
-
-const EMAIL_CONFIG = {
-  serviceId: "service_mq054m8",
-  templateId: "template_lf5n7os",
-  publicKey: "RQ1dSXDL1URKXCGsG",
-  toEmail: "b.lopes.software@gmail.com",
-}
-
-  const contactForm = document.getElementById("contact-form")
-  const contactFeedback = document.getElementById("contact-feedback")
-
-  if (contactForm) {
-    contactForm.addEventListener("submit", (event) => {
-      event.preventDefault()
-      const formData = new FormData(contactForm)
-      const data = {
-        name: formData.get("name")?.trim() || "",
-        email: formData.get("email")?.trim() || "",
-        subject: formData.get("subject")?.trim() || "",
-        message: formData.get("message")?.trim() || "",
-      }
-
-      // Validação robusta de email
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      if (!data.name || !data.email || !data.subject || !data.message) {
-        setContactFeedback("Preencha todos os campos antes de enviar.", "error")
-        return
-      }
-
-      if (!emailRegex.test(data.email)) {
-        setContactFeedback("Por favor, insira um email válido.", "error")
-        return
-      }
-
-      const submitBtn = contactForm.querySelector('button[type="submit"]')
-      const originalContent = submitBtn.innerHTML
-      submitBtn.disabled = true
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...'
-
-      sendEmail(data)
-        .then(() => {
-          setContactFeedback("Mensagem enviada com sucesso! Entrarei em contato em breve.", "success")
-          contactForm.reset()
-        })
-        .catch((error) => {
-          console.error(error)
-          setContactFeedback("Não foi possível enviar sua mensagem agora. Tente novamente mais tarde.", "error")
-        })
-        .finally(() => {
-          submitBtn.disabled = false
-          submitBtn.innerHTML = originalContent
-        })
-    })
-  }
-
-  function setContactFeedback(message, type = "success") {
-    if (!contactFeedback) return
-    contactFeedback.textContent = message
-    contactFeedback.className = `form-feedback ${type}`
-  }
-
-  function sendEmail(data) {
-    if (!EMAIL_CONFIG.serviceId || !EMAIL_CONFIG.templateId || !EMAIL_CONFIG.publicKey) {
-      return Promise.reject(new Error("EmailJS configuration missing"))
+    "en-US": {
+      metaTitle: "Bernardo Lopes - Software Engineer",
+      metaDescription: "Bernardo Lopes' portfolio. Backend (Java/Spring), APIs, and automation. I turn requirements into robust software.",
+      metaOgDescription: "Backend (Java/Spring), APIs, and automation. I turn requirements into robust software.",
+      skipLink: "Skip to content",
+      loading: "Loading portfolio...",
+      navHome: "Home",
+      navAbout: "About",
+      navSkills: "Résumé",
+      navProjects: "Projects",
+      navContact: "Contact",
+      heroMiniAbout: "About",
+      heroMiniContact: "Contact",
+      heroSuper: "Backend, SRE and automation specialist",
+      heroSubtitle: "Hi, I'm",
+      heroTagline: "Software Production, Software Management, SRE and automation. I translate requirements into resilient deliveries.",
+      heroCTAProjects: "View projects",
+      heroCTAContact: "Contact me",
+      heroHighlight: "Highlight {n}",
+      railText: "Software Developer // Software Manager",
+      aboutTitle: "About me",
+      aboutP1: "Site Reliability Engineering (SRE) specialist focused on backend and software management. I build robust platforms, codify sustainable infrastructure, and design objective systems.",
+      aboutP2: "My experience with Java, Spring, React, and automation lets me deliver reliable, maintainable solutions that are pleasant to use.",
+      techTitle: "Technologies",
+      techIntro: "Stacks and tools I work with daily:",
+      curriculumTitle: "Featured résumé",
+      curriculumIntro: "Preview the LaTeX source and download the résumé as TEX or PDF.",
+      cvButtonPDF: "Download PDF",
+      cvButtonCode: "View LaTeX code",
+      cvOpenNewTab: "Open résumé in new tab",
+      cvPreviewHint: "Preview lets you validate the final layout before downloading.",
+      cvFileStatusLoading: "Loading preview...",
+      cvFileStatusReady: "Ready to view.",
+      cvFileStatusError: "Could not load the file.",
+      projectsTitle: "Recent projects",
+      projectsIntro: "Selection of studies and products that show my end-to-end process.",
+      projectsLoading: "Loading GitHub projects...",
+      projectsError: "Could not load projects now. Try again later.",
+      projectsEmpty: "No public projects found at the moment.",
+      loadMore: "Show more projects",
+      projectLink: "Open on GitHub",
+      projectHomepage: "View page",
+      projectUpdated: "Updated",
+      projectNoDescription: "This repository has no description yet.",
+      contactTitle: "Contact",
+      availability: "Available for new projects",
+      nameLabel: "Name *",
+      emailLabel: "Email *",
+      subjectLabel: "Subject *",
+      messageLabel: "Message *",
+      namePlaceholder: "Your full name",
+      emailPlaceholder: "your@email.com",
+      subjectPlaceholder: "What would you like to talk about?",
+      messagePlaceholder: "Tell me more about your project...",
+      sendButton: "Send message",
+      sending: "Sending...",
+      feedbackSuccess: "Message sent! I'll get back soon.",
+      feedbackError: "Couldn't send now. Please try again.",
+      validationName: "Please enter your name.",
+      validationEmail: "Please enter a valid email.",
+      validationSubject: "Please add a subject.",
+      validationMessage: "Please write a message.",
+      backToTop: "Back to top",
+      footerText: "© 2025 Bernardo Lopes. All rights reserved."
     }
+  };
 
-    const payload = {
-      service_id: EMAIL_CONFIG.serviceId,
-      template_id: EMAIL_CONFIG.templateId,
-      user_id: EMAIL_CONFIG.publicKey,
-      template_params: {
-        to_email: EMAIL_CONFIG.toEmail,
-        from_name: data.name,
-        reply_to: data.email,
-        subject: data.subject,
-        message: data.message,
-      },
-    }
-
-    return fetch("https://api.emailjs.com/api/v1.0/email/send", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    }).then((response) => {
-      if (!response.ok) {
-        throw new Error("EmailJS request failed")
-      }
-    })
-  }
-
-  function showNotification(message, type = "success") {
-    const notification = document.createElement("div")
-    notification.className = `notification ${type}`
-    notification.textContent = message
-    document.body.appendChild(notification)
-
-    setTimeout(() => notification.classList.add("show"), 10)
-    setTimeout(() => {
-      notification.classList.remove("show")
-      setTimeout(() => notification.remove(), 300)
-    }, 3000)
-  }
+  const typedStrings = {
+    "pt-BR": [
+      "Engenheiro de Software",
+      "Especialista em SRE",
+      "Automação e Resiliência",
+      "Backend Java/Spring",
+      "Software Manager"
+    ],
+    "en-US": [
+      "Software Engineer",
+      "SRE Specialist",
+      "Automation & Resilience",
+      "Java/Spring Backend",
+      "Software Manager"
+    ]
+  };
 
   const CV_FILES = {
-    "pt-br": { label: "PT-BR", path: "CV_main_PT-BR.pdf" },
-    "en-us": { label: "EN-US", path: "CV_main_EN-US.pdf" },
-  }
-  let currentCvLang = "pt-br"
-  const downloadPdfBtn = document.getElementById("download-cv-pdf")
-  const pdfStatus = document.getElementById("pdf-status")
-  const pdfFrame = document.getElementById("cv-pdf-frame")
-  const pdfFeedback = document.getElementById("pdf-feedback")
-  const openPdfBtn = document.getElementById("open-cv-pdf")
-  const cvLangButtons = document.querySelectorAll("[data-cv-lang]")
-  const fileName = document.querySelector(".file-name")
+    "pt-BR": "CV_main_PT-BR.pdf",
+    "en-US": "CV_main_EN-US.pdf"
+  };
 
-  const setButtonDisabled = (button, disabled) => {
-    if (!button) return
-    if (disabled) {
-      button.classList.add("is-disabled")
-      button.setAttribute("aria-disabled", "true")
-      if (button.tagName === "A") {
-        button.setAttribute("tabindex", "-1")
-      }
-    } else {
-      button.classList.remove("is-disabled")
-      button.removeAttribute("aria-disabled")
-      if (button.tagName === "A") {
-        button.removeAttribute("tabindex")
-      }
+  const LANG_KEY = "portfolioLang";
+  const GH_ENDPOINT = "https://api.github.com/users/BernardoApl/repos?sort=updated&per_page=100";
+
+  const qs = (selector) => document.querySelector(selector);
+  const qsa = (selector) => Array.from(document.querySelectorAll(selector));
+
+  let currentLanguage = normalizeLanguage(localStorage.getItem(LANG_KEY) || document.documentElement.lang || "pt-BR");
+  let typedInstance = null;
+  let projects = [];
+  let projectsState = "loading";
+  let currentPage = 1;
+  const perPage = 6;
+
+  function normalizeLanguage(lang) {
+    if (!lang) return "pt-BR";
+    const lower = lang.toLowerCase();
+    if (lower.startsWith("en")) return "en-US";
+    return "pt-BR";
+  }
+
+  function t(key, vars = {}) {
+    const dict = translations[currentLanguage] || translations["pt-BR"];
+    let str = dict[key] ?? key;
+    Object.entries(vars).forEach(([k, v]) => {
+      str = str.replace(`{${k}}`, v);
+    });
+    return str;
+  }
+
+  function setMeta(name, content) {
+    const el = qs(`meta[name="${name}"]`);
+    if (el) el.setAttribute("content", content);
+  }
+
+  function setMetaProperty(property, content) {
+    const el = qs(`meta[property="${property}"]`);
+    if (el) el.setAttribute("content", content);
+  }
+
+  function setText(selector, key) {
+    const el = typeof selector === "string" ? qs(selector) : selector;
+    if (el) el.textContent = t(key);
+  }
+
+  function setPlaceholder(selector, key) {
+    const el = qs(selector);
+    if (el) el.setAttribute("placeholder", t(key));
+  }
+
+  function updateHeroDots() {
+    qsa(".hero-dots .dot").forEach((dot, index) => {
+      dot.setAttribute("aria-label", t("heroHighlight", { n: index + 1 }));
+    });
+  }
+
+  function applyTranslations() {
+    document.documentElement.lang = currentLanguage.toLowerCase();
+    localStorage.setItem(LANG_KEY, currentLanguage);
+
+    document.title = t("metaTitle");
+    setMeta("description", t("metaDescription"));
+    setMetaProperty("og:description", t("metaOgDescription"));
+    setMetaProperty("og:title", t("metaTitle"));
+    setMeta("twitter:title", t("metaTitle"));
+    setMeta("twitter:description", t("metaDescription"));
+
+    setText(".skip-link", "skipLink");
+    setText("#loading-screen p", "loading");
+
+    const navKeys = ["navHome", "navAbout", "navSkills", "navProjects", "navContact"];
+    qsa(".nav-items a").forEach((link, index) => {
+      if (navKeys[index]) link.textContent = t(navKeys[index]);
+    });
+
+    setText('.hero-mini-nav a[href="#about"]', "heroMiniAbout");
+    setText('.hero-mini-nav a[href="#contact"]', "heroMiniContact");
+    setText(".rail-text", "railText");
+    setText(".super-title", "heroSuper");
+    setText(".hero-subtitle", "heroSubtitle");
+    setText(".hero-tagline", "heroTagline");
+    setText(".hero-ctas .primary-btn", "heroCTAProjects");
+    setText(".hero-ctas .outline-btn", "heroCTAContact");
+    const heroRole = qs("#hero-roles");
+    if (heroRole) heroRole.textContent = typedStrings[currentLanguage]?.[0] || "";
+    updateHeroDots();
+
+    setText("#about .section-title", "aboutTitle");
+    const aboutParas = qsa("#about .about-text p");
+    if (aboutParas[0]) aboutParas[0].textContent = t("aboutP1");
+    if (aboutParas[1]) aboutParas[1].textContent = t("aboutP2");
+    setText("#about .tech-title", "techTitle");
+    setText("#about .tech-intro", "techIntro");
+
+    setText("#skills .section-title", "curriculumTitle");
+    setText("#skills .section-intro", "curriculumIntro");
+    setText("#download-cv-pdf span", "cvButtonPDF");
+    setText("#cv-github span", "cvButtonCode");
+    setText("#open-cv-pdf span", "cvOpenNewTab");
+    setText("#pdf-feedback", "cvPreviewHint");
+    setText("#pdf-status", "cvFileStatusLoading");
+    const frame = qs("#cv-pdf-frame");
+    if (frame) frame.setAttribute("title", t("cvOpenNewTab"));
+
+    setText("#projects .section-title", "projectsTitle");
+    setText("#projects .section-intro", "projectsIntro");
+    const placeholder = qs("#projects-placeholder");
+    if (placeholder && !projects.length) {
+      const text =
+        projectsState === "error"
+          ? t("projectsError")
+          : projectsState === "loading"
+          ? t("projectsLoading")
+          : t("projectsEmpty");
+      placeholder.textContent = text;
     }
-  }
+    setText("#load-more-projects span", "loadMore");
 
-  const setActiveLang = (lang) => {
-    cvLangButtons.forEach((btn) => {
-      const isActive = btn.dataset.cvLang === lang
-      btn.classList.toggle("active", isActive)
-      btn.setAttribute("aria-pressed", String(isActive))
-    })
-  }
+    setText("#contact .section-title", "contactTitle");
+    setText(".availability-status span", "availability");
+    setText('label[for="name"]', "nameLabel");
+    setPlaceholder("#name", "namePlaceholder");
+    setText('label[for="email"]', "emailLabel");
+    setPlaceholder("#email", "emailPlaceholder");
+    setText('label[for="subject"]', "subjectLabel");
+    setPlaceholder("#subject", "subjectPlaceholder");
+    setText('label[for="message"]', "messageLabel");
+    setPlaceholder("#message", "messagePlaceholder");
+    setText('#contact-form button span', "sendButton");
 
-  const loadCv = (lang) => {
-    const entry = CV_FILES[lang] || CV_FILES["pt-br"]
-    const resolvedLang = CV_FILES[lang] ? lang : "pt-br"
-    currentCvLang = resolvedLang
-    setActiveLang(resolvedLang)
-
-    const path = entry.path
-    if (fileName) {
-      fileName.innerHTML = '<i class="fas fa-file-pdf" aria-hidden="true"></i> ' + path
+    const backToTop = qs("#back-to-top");
+    if (backToTop) {
+      backToTop.title = t("backToTop");
+      backToTop.setAttribute("aria-label", t("backToTop"));
     }
 
-    setButtonDisabled(downloadPdfBtn, true)
-    setButtonDisabled(openPdfBtn, true)
-    if (pdfStatus) pdfStatus.textContent = "Carregando visualizacao..."
-    if (pdfFeedback) pdfFeedback.textContent = "Preparando curriculo..."
-
-    fetch(path, { method: "HEAD" })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("PDF nao encontrado")
-        }
-        body.classList.add("cv-available")
-        setButtonDisabled(downloadPdfBtn, false)
-        setButtonDisabled(openPdfBtn, false)
-        if (pdfFrame) {
-          pdfFrame.src = `${path}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`
-        }
-        if (downloadPdfBtn) {
-          downloadPdfBtn.href = path
-        }
-        if (openPdfBtn) {
-          openPdfBtn.href = path
-        }
-        if (pdfStatus) {
-          pdfStatus.textContent = `Visualizacao disponivel (${entry.label})`
-        }
-        if (pdfFeedback) {
-          pdfFeedback.textContent = "Use os botoes acima para baixar ou abrir em nova guia."
-        }
-      })
-      .catch(() => {
-        setButtonDisabled(downloadPdfBtn, true)
-        setButtonDisabled(openPdfBtn, true)
-        if (pdfFrame) {
-          pdfFrame.removeAttribute("src")
-        }
-        if (pdfStatus) {
-          pdfStatus.textContent = `PDF nao encontrado (${entry.label})`
-        }
-        if (pdfFeedback) {
-          pdfFeedback.textContent = "Envie o arquivo para liberar a visualizacao."
-        }
-      })
+    setText("footer p", "footerText");
   }
 
-  cvLangButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const lang = btn.dataset.cvLang || "pt-br"
-      loadCv(lang)
-    })
-  })
-
-  loadCv(currentCvLang)
-
-  if (window.Typed) {
-    new window.Typed("#hero-roles", {
-      strings: [
-        "Software Developer // Software Manager",
-        "Java & Spring Boot",
-        "Arquiteto de APIs",
-        "Entusiasta de DevOps",
-      ],
-      typeSpeed: 55,
-      backSpeed: 35,
-      backDelay: 1800,
+  function updateTyped() {
+    if (typeof Typed === "undefined") return;
+    if (typedInstance) typedInstance.destroy();
+    typedInstance = new Typed("#hero-roles", {
+      strings: typedStrings[currentLanguage] || typedStrings["pt-BR"],
+      typeSpeed: 60,
+      backSpeed: 30,
+      backDelay: 1100,
       loop: true,
       smartBackspace: true,
-      showCursor: true,
-      cursorChar: "_",
-    })
+      cursorChar: "_"
+    });
   }
 
-  console.log("[v2] Portfolio recarregado com layout responsivo.")
-})
+  function formatDate(date) {
+    if (!date) return "";
+    return new Intl.DateTimeFormat(currentLanguage, {
+      month: "short",
+      year: "numeric"
+    }).format(new Date(date));
+  }
 
+  function createProjectCard(repo) {
+    const topics = Array.isArray(repo.topics) && repo.topics.length ? repo.topics : [];
+    if (!topics.length && repo.language) topics.push(repo.language);
+    const card = document.createElement("article");
+    card.className = "project-card";
+    card.innerHTML = `
+      <div class="project-header">
+        <span>${repo.language || "GitHub"}</span>
+        <span>${t("projectUpdated")}: ${formatDate(repo.pushed_at || repo.updated_at || repo.created_at)}</span>
+      </div>
+      <h3>${repo.name}</h3>
+      <p>${repo.description || t("projectNoDescription")}</p>
+      <ul class="project-stack">
+        ${topics.map((topic) => `<li>${topic}</li>`).join("")}
+      </ul>
+      <div class="project-links">
+        <a class="primary" href="${repo.html_url}" target="_blank" rel="noopener">${t("projectLink")}</a>
+        ${repo.homepage ? `<a href="${repo.homepage}" target="_blank" rel="noopener">${t("projectHomepage")}</a>` : ""}
+      </div>
+    `;
+    return card;
+  }
 
+  function renderProjects() {
+    const container = qs("#projects-container");
+    const placeholder = qs("#projects-placeholder");
+    const loadMoreBtn = qs("#load-more-projects");
+    if (!container) return;
 
+    container.innerHTML = "";
 
+    if (projectsState === "error") {
+      if (placeholder) {
+        placeholder.textContent = t("projectsError");
+        placeholder.classList.remove("is-hidden");
+        container.appendChild(placeholder);
+      }
+      if (loadMoreBtn) loadMoreBtn.classList.add("is-hidden");
+      return;
+    }
 
+    if (!projects.length) {
+      if (placeholder) {
+        const text =
+          projectsState === "loading"
+            ? t("projectsLoading")
+            : t("projectsEmpty");
+        placeholder.textContent = text;
+        placeholder.classList.remove("is-hidden");
+        container.appendChild(placeholder);
+      }
+      if (loadMoreBtn) loadMoreBtn.classList.add("is-hidden");
+      return;
+    }
 
+    if (placeholder) placeholder.classList.add("is-hidden");
 
+    const visible = projects.slice(0, currentPage * perPage);
+    visible.forEach((repo) => container.appendChild(createProjectCard(repo)));
 
+    if (loadMoreBtn) {
+      loadMoreBtn.classList.toggle("is-hidden", visible.length >= projects.length);
+      setText("#load-more-projects span", "loadMore");
+    }
+  }
 
+  async function fetchProjects() {
+    const placeholder = qs("#projects-placeholder");
+    if (placeholder) placeholder.textContent = t("projectsLoading");
+    try {
+      projectsState = "loading";
+      const response = await fetch(GH_ENDPOINT);
+      if (!response.ok) throw new Error("GitHub request failed");
+      const data = await response.json();
+      projects = Array.isArray(data) ? data : [];
+      projectsState = "ready";
+      renderProjects();
+    } catch (error) {
+      projectsState = "error";
+      if (placeholder) {
+        placeholder.textContent = t("projectsError");
+        placeholder.classList.remove("is-hidden");
+      }
+      const loadMoreBtn = qs("#load-more-projects");
+      if (loadMoreBtn) loadMoreBtn.classList.add("is-hidden");
+      console.error("Erro ao carregar projetos:", error);
+      renderProjects();
+    }
+  }
 
+  function validateEmail(value) {
+    return /\S+@\S+\.\S+/.test(value);
+  }
 
+  function initContactForm() {
+    const form = qs("#contact-form");
+    if (!form) return;
 
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const name = qs("#name")?.value.trim() || "";
+      const email = qs("#email")?.value.trim() || "";
+      const subject = qs("#subject")?.value.trim() || "";
+      const message = qs("#message")?.value.trim() || "";
+      const feedback = qs("#contact-feedback");
+      const submitBtn = form.querySelector("button[type='submit']");
+      const submitText = submitBtn?.querySelector("span");
+
+      if (!name) {
+        if (feedback) feedback.textContent = t("validationName");
+        return;
+      }
+      if (!validateEmail(email)) {
+        if (feedback) feedback.textContent = t("validationEmail");
+        return;
+      }
+      if (!subject) {
+        if (feedback) feedback.textContent = t("validationSubject");
+        return;
+      }
+      if (!message) {
+        if (feedback) feedback.textContent = t("validationMessage");
+        return;
+      }
+
+      if (submitBtn) submitBtn.disabled = true;
+      if (submitText) submitText.textContent = t("sending");
+      if (feedback) feedback.textContent = "";
+
+      setTimeout(() => {
+        if (submitText) submitText.textContent = t("sendButton");
+        if (submitBtn) submitBtn.disabled = false;
+        if (feedback) feedback.textContent = t("feedbackSuccess");
+        form.reset();
+      }, 1000);
+    });
+  }
+
+  function loadCv(lang) {
+    const pdfStatus = qs("#pdf-status");
+    const pdfFeedback = qs("#pdf-feedback");
+    const frame = qs("#cv-pdf-frame");
+    const downloadBtn = qs("#download-cv-pdf");
+    const openBtn = qs("#open-cv-pdf");
+    const fileName = CV_FILES[lang] || CV_FILES["pt-BR"];
+
+    if (pdfStatus) pdfStatus.textContent = t("cvFileStatusLoading");
+    if (pdfFeedback) pdfFeedback.textContent = t("cvFileStatusLoading");
+    if (downloadBtn) {
+      downloadBtn.href = fileName;
+      downloadBtn.setAttribute("download", fileName);
+    }
+    if (openBtn) openBtn.href = fileName;
+    const nameSpan = qs(".file-name");
+    if (nameSpan) {
+      nameSpan.innerHTML = `<i class="fas fa-file-pdf" aria-hidden="true"></i> ${fileName}`;
+    }
+    if (frame) frame.removeAttribute("src");
+
+    fetch(fileName, { method: "HEAD" })
+      .then((resp) => {
+        if (!resp.ok) throw new Error("CV not available");
+        if (frame) frame.src = fileName;
+        if (pdfStatus) pdfStatus.textContent = t("cvFileStatusReady");
+        if (pdfFeedback) pdfFeedback.textContent = t("cvPreviewHint");
+        document.body.classList.add("cv-available");
+      })
+      .catch(() => {
+        if (pdfStatus) pdfStatus.textContent = t("cvFileStatusError");
+        if (pdfFeedback) pdfFeedback.textContent = t("cvFileStatusError");
+        document.body.classList.remove("cv-available");
+      });
+  }
+
+  function syncCvButtons() {
+    qsa(".cv-lang-btn").forEach((btn) => {
+      const btnLang = normalizeLanguage(btn.dataset.cvLang);
+      btn.classList.toggle("active", btnLang === currentLanguage);
+    });
+  }
+
+  function handleLanguageChange(lang) {
+    currentLanguage = normalizeLanguage(lang);
+    syncCvButtons();
+    applyTranslations();
+    updateTyped();
+    renderProjects();
+    loadCv(currentLanguage);
+  }
+
+  function initCvLanguageButtons() {
+    qsa(".cv-lang-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        handleLanguageChange(btn.dataset.cvLang || "pt-BR");
+      });
+    });
+  }
+
+  function initThemeToggle() {
+    const toggle = qs("#theme-toggle");
+    if (!toggle) return;
+    toggle.addEventListener("click", () => {
+      document.body.classList.toggle("theme-light");
+      const icon = toggle.querySelector("i");
+      if (icon) icon.classList.toggle("fa-sun");
+      if (icon) icon.classList.toggle("fa-moon");
+    });
+  }
+
+  function initMenuToggle() {
+    const menuToggle = qs(".menu-toggle");
+    const navItems = qs(".nav-items");
+    if (!menuToggle || !navItems) return;
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navItems.classList.toggle("active");
+      menuToggle.setAttribute("aria-expanded", isOpen.toString());
+    });
+    qsa(".nav-items a").forEach((link) =>
+      link.addEventListener("click", () => {
+        navItems.classList.remove("active");
+        menuToggle.setAttribute("aria-expanded", "false");
+      })
+    );
+  }
+
+  function initHeroDots() {
+    const dots = qsa(".hero-dots .dot");
+    if (!dots.length) return;
+    let index = 0;
+
+    const setActive = (nextIndex) => {
+      dots.forEach((dot) => dot.classList.remove("active"));
+      dots[nextIndex].classList.add("active");
+      index = nextIndex;
+    };
+
+    dots.forEach((dot, dotIndex) => {
+      dot.addEventListener("click", () => setActive(dotIndex));
+    });
+
+    setInterval(() => {
+      const next = (index + 1) % dots.length;
+      setActive(next);
+    }, 3500);
+  }
+
+  function initParallax() {
+    const hero = qs(".hero-inner");
+    if (!hero) return;
+    window.addEventListener("pointermove", (event) => {
+      const x = (event.clientX / window.innerWidth - 0.5) * 6;
+      const y = (event.clientY / window.innerHeight - 0.5) * 6;
+      hero.style.transform = `translate(${x}px, ${y}px)`;
+    });
+  }
+
+  function initSmoothScroll() {
+    qsa('a[href^="#"]').forEach((link) => {
+      link.addEventListener("click", (event) => {
+        const targetId = link.getAttribute("href");
+        if (!targetId || targetId === "#") return;
+        const target = qs(targetId);
+        if (!target) return;
+        event.preventDefault();
+        target.scrollIntoView({ behavior: "smooth" });
+      });
+    });
+  }
+
+  function initNavHighlight() {
+    const sections = qsa("main section[id]");
+    const navLinks = qsa(".nav-items a");
+    const setActive = () => {
+      const scrollPos = window.scrollY + 120;
+      sections.forEach((section, idx) => {
+        const top = section.offsetTop;
+        const bottom = top + section.offsetHeight;
+        if (scrollPos >= top && scrollPos < bottom) {
+          navLinks.forEach((link) => link.classList.remove("active"));
+          if (navLinks[idx]) navLinks[idx].classList.add("active");
+        }
+      });
+    };
+    window.addEventListener("scroll", setActive);
+    setActive();
+  }
+
+  function initBackToTop() {
+    const btn = qs("#back-to-top");
+    if (!btn) return;
+    btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 400) {
+        btn.classList.add("visible");
+      } else {
+        btn.classList.remove("visible");
+      }
+    });
+  }
+
+  function initLoadingScreen() {
+    const loading = qs("#loading-screen");
+    if (!loading) return;
+    setTimeout(() => loading.classList.add("hidden"), 600);
+  }
+
+  function initRipple() {
+    const targets = qsa(".btn, .nav-items a, .menu-toggle");
+    targets.forEach((target) => {
+      target.addEventListener("click", (event) => {
+        const ripple = document.createElement("span");
+        ripple.className = "ripple";
+        ripple.style.left = `${event.offsetX}px`;
+        ripple.style.top = `${event.offsetY}px`;
+        target.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 400);
+      });
+    });
+  }
+
+  function initProjects() {
+    const loadMoreBtn = qs("#load-more-projects");
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener("click", () => {
+        currentPage += 1;
+        renderProjects();
+      });
+    }
+    fetchProjects();
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    initThemeToggle();
+    initMenuToggle();
+    initHeroDots();
+    initParallax();
+    initSmoothScroll();
+    initNavHighlight();
+    initBackToTop();
+    initLoadingScreen();
+    initRipple();
+    initContactForm();
+    initCvLanguageButtons();
+    handleLanguageChange(currentLanguage);
+    initProjects();
+  });
+})();
