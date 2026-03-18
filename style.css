@@ -597,50 +597,82 @@ section {
   font-size: 1.35rem;
 }
 
+.tech-stack {
+  margin-top: 40px;
+  padding: 36px 28px;
+  background: var(--surface);
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.tech-title {
+  margin: 0 0 8px 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
 .tech-intro {
-  margin: 8px 0 16px;
+  margin: 0 0 24px 0;
   color: var(--text-muted);
+  font-size: 0.95rem;
 }
 
-.tech-table-wrapper {
-  overflow: visible;
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 20px;
+  justify-items: center;
 }
 
-.tech-stack table {
-  width: 100%;
+.tech-item {
   display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-  justify-content: center;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.tech-stack tr {
-  display: contents;
-}
-
-.tech-stack td {
-  background: transparent;
-  border-radius: 0;
-  border: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
   padding: 16px;
-  color: var(--text);
-  width: clamp(120px, 25vw, 340px);
-  min-height: auto;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  width: 100%;
+  max-width: 120px;
+  text-align: center;
 }
 
-.tech-stack img {
+.tech-item:hover {
+  background: rgba(22, 219, 101, 0.08);
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(22, 219, 101, 0.15);
+}
+
+.tech-item img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
   display: block;
-  margin: 0 auto 6px;
-  width: clamp(100px, 20vw, 240px);
-  height: clamp(100px, 20vw, 240px);
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
 }
 
-.tech-stack sub {
-  font-size: 1rem;
+.tech-item span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.tech-stack table {
+  display: none;
+}
+
+.tech-table-wrapper {
+  display: none;
 }
 
 .skills {
@@ -1338,18 +1370,43 @@ html {
     gap: 20px;
   }
 
+  .tech-grid {
+    grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+    gap: 18px;
+  }
+
+  .tech-item {
+    padding: 14px;
+    max-width: 110px;
+  }
+
+  .tech-item img {
+    width: 65px;
+    height: 65px;
+  }
+
   .projects-container {
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
   }
 
-  .tech-stack td {
-    width: clamp(100px, 20vw, 280px);
+  .tech-grid {
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 16px;
   }
 
-  .tech-stack img {
-    width: clamp(70px, 15vw, 200px);
-    height: clamp(70px, 15vw, 200px);
+  .tech-item {
+    padding: 12px;
+    max-width: 105px;
+  }
+
+  .tech-item img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .tech-item span {
+    font-size: 0.85rem;
   }
 
   .pdf-frame {
@@ -1449,14 +1506,23 @@ html {
     padding: 20px;
   }
 
-  .tech-stack td {
-    width: clamp(90px, 18vw, 240px);
-    padding: 12px;
+  .tech-grid {
+    grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
+    gap: 14px;
   }
 
-  .tech-stack img {
-    width: clamp(60px, 12vw, 180px);
-    height: clamp(60px, 12vw, 180px);
+  .tech-item {
+    padding: 12px;
+    max-width: 100px;
+  }
+
+  .tech-item img {
+    width: 55px;
+    height: 55px;
+  }
+
+  .tech-item span {
+    font-size: 0.8rem;
   }
 
   .about-text {
@@ -1625,33 +1691,37 @@ html {
   }
 
   .tech-stack {
-    margin-top: 24px;
+    margin-top: 32px;
+    padding: 28px 20px;
   }
 
   .tech-title {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
 
   .tech-intro {
+    margin-bottom: 18px;
     font-size: 0.9rem;
   }
 
-  .tech-stack table {
-    gap: 16px;
+  .tech-grid {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 14px;
   }
 
-  .tech-stack td {
-    width: clamp(80px, 25vw, 200px);
+  .tech-item {
     padding: 10px;
+    gap: 10px;
+    max-width: 95px;
   }
 
-  .tech-stack img {
-    width: clamp(50px, 15vw, 150px);
-    height: clamp(50px, 15vw, 150px);
+  .tech-item img {
+    width: 50px;
+    height: 50px;
   }
 
-  .tech-stack sub {
-    font-size: 0.85rem;
+  .tech-item span {
+    font-size: 0.8rem;
   }
 
   .section-heading {
@@ -1828,33 +1898,26 @@ html {
 
   .tech-stack {
     margin-top: 20px;
+    padding: 20px 16px;
   }
 
-  .tech-title {
-    font-size: 1rem;
-  }
-
-  .tech-intro {
-    font-size: 0.85rem;
-    margin-bottom: 12px;
-  }
-
-  .tech-stack table {
+  .tech-grid {
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
     gap: 12px;
   }
 
-  .tech-stack td {
-    width: clamp(70px, 22vw, 140px);
+  .tech-item {
     padding: 8px;
+    gap: 8px;
+    max-width: 85px;
   }
 
-  .tech-stack img {
-    width: clamp(45px, 13vw, 120px);
-    height: clamp(45px, 13vw, 120px);
-    margin-bottom: 4px;
+  .tech-item img {
+    width: 45px;
+    height: 45px;
   }
 
-  .tech-stack sub {
+  .tech-item span {
     font-size: 0.75rem;
   }
 
