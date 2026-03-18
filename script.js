@@ -1,9 +1,9 @@
 (() => {
   const translations = {
     "pt-BR": {
-      metaTitle: "Bernardo Lopes - Engenheiro de Software",
-      metaDescription: "Portfólio de Bernardo Lopes. Backend (Java/Spring), APIs e automação. Transformo requisitos em software robusto.",
-      metaOgDescription: "Backend (Java/Spring), APIs e automação. Transformo requisitos em software robusto.",
+      metaTitle: "Bernardo Lopes - Software que Escala",
+      metaDescription: "Design robusto. Desenvolvimento de alto desempenho. Sistemas que crescem com você. Backend em Java/Spring.",
+      metaOgDescription: "Design robusto. Desenvolvimento de alto desempenho. Sistemas que crescem com você.",
       skipLink: "Pular para o conteúdo",
       loading: "Carregando portfólio...",
       navHome: "Início",
@@ -13,20 +13,20 @@
       navContact: "Contato",
       heroMiniAbout: "Sobre",
       heroMiniContact: "Contato",
-      heroSuper: "Especialista em backend, SRE e automações",
-      heroSubtitle: "Olá, sou",
-      heroTagline: "Produção de Software, Gestão de Software, SRE e automação. Traduzo requisitos em entregas resilientes.",
-      heroCTAProjects: "Ver projetos",
-      heroCTAContact: "Falar comigo",
+      heroSuper: "Desenvolvimento. Projeto. Entrega.",
+      heroSubtitle: "Eu sou",
+      heroTagline: "Software que funciona. Design de APIs que vendem. Arquitetura que escala. Seu código, vitorioso.",
+      heroCTAProjects: "Ver Resultados",
+      heroCTAContact: "Iniciar Projeto",
       heroHighlight: "Destaque {n}",
-      railText: "Software Developer // Software Manager",
-      aboutTitle: "Sobre mim",
-      aboutP1: "Especialista em Site Reliability Engineering (SRE), com foco em backend e gestão de software. Construo plataformas robustas, crio infraestrutura como código de forma sustentável e desenho sistemas objetivos.",
-      aboutP2: "Minha experiência em Java, Spring, React e automação me permite entregar soluções confiáveis, fáceis de manter e prazerosas de usar.",
-      techTitle: "Tecnologias",
-      techIntro: "Stacks e ferramentas com as quais trabalho diariamente:",
-      curriculumTitle: "Currículo em destaque",
-      curriculumIntro: "Visualize diretamente o arquivo LaTeX do currículo e faça o download em TEX ou PDF.",
+      railText: "Desenvolvimento Robusto // Projeto Escalável",
+      aboutTitle: "Sobre",
+      aboutP1: "Desenvolvimento de software que funciona de verdade. Projeto de APIs precisas. Design que cresce. Eu construo sistemas que vencem.",
+      aboutP2: "Java, Spring, React, TypeScript. Aqui não tem tecnologia por moda. Tem resultado.",
+      techTitle: "Stack de Projeto",
+      techIntro: "Ferramentas que entregam resultado:",
+      curriculumTitle: "Experiência Comprovada",
+      curriculumIntro: "Meu histórico de projetos, em LaTeX. Download em PDF ou código-fonte.",
       cvButtonPDF: "Baixar PDF",
       cvButtonCode: "Ver código LaTeX",
       cvOpenNewTab: "Abrir CV em nova guia",
@@ -34,8 +34,8 @@
       cvFileStatusLoading: "Carregando visualização...",
       cvFileStatusReady: "Pronto para visualizar.",
       cvFileStatusError: "Não foi possível carregar o arquivo.",
-      projectsTitle: "Projetos recentes",
-      projectsIntro: "Seleção de estudos e produtos que mostram meu processo completo.",
+      projectsTitle: "Projetos em Produção",
+      projectsIntro: "Desenvolvimento real. Projeto sólido. Código que rende.",
       projectsLoading: "Carregando projetos do GitHub...",
       projectsError: "Não foi possível carregar os projetos agora. Tente novamente mais tarde.",
       projectsEmpty: "Nenhum projeto público encontrado no momento.",
@@ -44,8 +44,8 @@
       projectHomepage: "Ver página",
       projectUpdated: "Atualizado",
       projectNoDescription: "Este repositório ainda não possui descrição.",
-      contactTitle: "Contato",
-      availability: "Disponível para novos projetos",
+      contactTitle: "Vamos Trabalhar",
+      availability: "Aberto para novos desafios agora",
       nameLabel: "Nome *",
       emailLabel: "Email *",
       subjectLabel: "Assunto *",
@@ -54,9 +54,9 @@
       emailPlaceholder: "seu@email.com",
       subjectPlaceholder: "Sobre o que você gostaria de falar?",
       messagePlaceholder: "Conte-me mais sobre seu projeto...",
-      sendButton: "Enviar mensagem",
+      sendButton: "Enviar",
       sending: "Enviando...",
-      feedbackSuccess: "Mensagem enviada! Retornarei em breve.",
+      feedbackSuccess: "Recebido! Retorno em 24h.",
       feedbackError: "Não foi possível enviar agora. Tente novamente.",
       validationName: "Informe seu nome.",
       validationEmail: "Informe um email válido.",
@@ -66,9 +66,9 @@
       footerText: "© 2025 Bernardo Lopes. Todos os direitos reservados."
     },
     "en-US": {
-      metaTitle: "Bernardo Lopes - Software Engineer",
-      metaDescription: "Bernardo Lopes' portfolio. Backend (Java/Spring), APIs, and automation. I turn requirements into robust software.",
-      metaOgDescription: "Backend (Java/Spring), APIs, and automation. I turn requirements into robust software.",
+      metaTitle: "Bernardo Lopes - Software That Scales",
+      metaDescription: "Robust design. High-performance development. Systems that grow. Backend in Java/Spring.",
+      metaOgDescription: "Robust design. High-performance development. Systems that grow with you.",
       skipLink: "Skip to content",
       loading: "Loading portfolio...",
       navHome: "Home",
@@ -78,20 +78,19 @@
       navContact: "Contact",
       heroMiniAbout: "About",
       heroMiniContact: "Contact",
-      heroSuper: "Backend, SRE and automation specialist",
-      heroSubtitle: "Hi, I'm",
-      heroTagline: "Software Production, Software Management, SRE and automation. I translate requirements into resilient deliveries.",
-      heroCTAProjects: "View projects",
-      heroCTAContact: "Contact me",
+      heroSuper: "Development. Design. Delivery.",
+      heroSubtitle: "I'm",
+      heroTagline: "Software that wins. API design that scales. Backend that performs. Results-driven code.",
+      heroCTAProjects: "See Results",
+      heroCTAContact: "Start Project",
       heroHighlight: "Highlight {n}",
-      railText: "Software Developer // Software Manager",
-      aboutTitle: "About me",
-      aboutP1: "Site Reliability Engineering (SRE) specialist focused on backend and software management. I build robust platforms, codify sustainable infrastructure, and design objective systems.",
-      aboutP2: "My experience with Java, Spring, React, and automation lets me deliver reliable, maintainable solutions that are pleasant to use.",
-      techTitle: "Technologies",
-      techIntro: "Stacks and tools I work with daily:",
-      curriculumTitle: "Featured résumé",
-      curriculumIntro: "Preview the LaTeX source and download the résumé as TEX or PDF.",
+      railText: "Robust Development // Scalable Design",
+      aboutP1: "Software development that actually works. Precise API design. Scalable architecture. I build systems that win.",
+      aboutP2: "Java, Spring, React, TypeScript. No tech for ego. Only results.",
+      techTitle: "Project Stack",
+      techIntro: "Tools that deliver results:",
+      curriculumTitle: "Track Record",
+      curriculumIntro: "My project history in LaTeX. Download PDF or source code.",
       cvButtonPDF: "Download PDF",
       cvButtonCode: "View LaTeX code",
       cvOpenNewTab: "Open résumé in new tab",
@@ -99,8 +98,8 @@
       cvFileStatusLoading: "Loading preview...",
       cvFileStatusReady: "Ready to view.",
       cvFileStatusError: "Could not load the file.",
-      projectsTitle: "Recent projects",
-      projectsIntro: "Selection of studies and products that show my end-to-end process.",
+      projectsTitle: "Live Projects",
+      projectsIntro: "Real development. Solid design. Code that performs.",
       projectsLoading: "Loading GitHub projects...",
       projectsError: "Could not load projects now. Try again later.",
       projectsEmpty: "No public projects found at the moment.",
@@ -109,8 +108,8 @@
       projectHomepage: "View page",
       projectUpdated: "Updated",
       projectNoDescription: "This repository has no description yet.",
-      contactTitle: "Contact",
-      availability: "Available for new projects",
+      contactTitle: "Let's Build",
+      availability: "Open for challenges now",
       nameLabel: "Name *",
       emailLabel: "Email *",
       subjectLabel: "Subject *",
@@ -119,9 +118,9 @@
       emailPlaceholder: "your@email.com",
       subjectPlaceholder: "What would you like to talk about?",
       messagePlaceholder: "Tell me more about your project...",
-      sendButton: "Send message",
+      sendButton: "Send",
       sending: "Sending...",
-      feedbackSuccess: "Message sent! I'll get back soon.",
+      feedbackSuccess: "Received! I'll reply in 24h.",
       feedbackError: "Couldn't send now. Please try again.",
       validationName: "Please enter your name.",
       validationEmail: "Please enter a valid email.",
@@ -134,18 +133,18 @@
 
   const typedStrings = {
     "pt-BR": [
-      "Engenheiro de Software",
-      "Especialista em SRE",
-      "Automação e Resiliência",
-      "Backend Java/Spring",
-      "Software Manager"
+      "Desenvolvimento que Vende",
+      "Projeto de APIs",
+      "Arquitetura Escalável",
+      "Backend em Java/Spring",
+      "Código que Rende"
     ],
     "en-US": [
-      "Software Engineer",
-      "SRE Specialist",
-      "Automation & Resilience",
+      "Development That Wins",
+      "API Design",
+      "Scalable Architecture",
       "Java/Spring Backend",
-      "Software Manager"
+      "Code That Performs"
     ]
   };
 
@@ -156,6 +155,9 @@
 
   const LANG_KEY = "portfolioLang";
   const GH_ENDPOINT = "https://api.github.com/users/BernardoApl/repos?sort=updated&per_page=100";
+  const GH_CACHE_KEY = "gh_projects_cache";
+  const GH_CACHE_TTL = 3600000; // 1 hora em ms
+  const FORM_SUBMIT_TIMEOUT = 2000; // 2 segundos entre submissions
 
   const qs = (selector) => document.querySelector(selector);
   const qsa = (selector) => Array.from(document.querySelectorAll(selector));
@@ -166,12 +168,36 @@
   let projectsState = "loading";
   let currentPage = 1;
   const perPage = 6;
+  let lastFormSubmitTime = 0;
 
   function normalizeLanguage(lang) {
     if (!lang) return "pt-BR";
     const lower = lang.toLowerCase();
     if (lower.startsWith("en")) return "en-US";
     return "pt-BR";
+  }
+
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  function throttle(func, limit) {
+    let inThrottle;
+    return function(...args) {
+      if (!inThrottle) {
+        func.apply(this, args);
+        inThrottle = true;
+        setTimeout(() => (inThrottle = false), limit);
+      }
+    };
   }
 
   function t(key, vars = {}) {
@@ -385,11 +411,24 @@
     if (placeholder) placeholder.textContent = t("projectsLoading");
     try {
       projectsState = "loading";
+      
+      // Tentar usar cache primeiro
+      const cached = getCachedProjects();
+      if (cached) {
+        projects = cached;
+        projectsState = "ready";
+        renderProjects();
+        return;
+      }
+
       const response = await fetch(GH_ENDPOINT);
       if (!response.ok) throw new Error("GitHub request failed");
       const data = await response.json();
       projects = Array.isArray(data) ? data : [];
       projectsState = "ready";
+      
+      // Cachear resultados
+      setCachedProjects(projects);
       renderProjects();
     } catch (error) {
       projectsState = "error";
@@ -405,7 +444,33 @@
   }
 
   function validateEmail(value) {
-    return /\S+@\S+\.\S+/.test(value);
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  function getCachedProjects() {
+    try {
+      const cached = localStorage.getItem(GH_CACHE_KEY);
+      if (!cached) return null;
+      const { data, timestamp } = JSON.parse(cached);
+      if (Date.now() - timestamp > GH_CACHE_TTL) {
+        localStorage.removeItem(GH_CACHE_KEY);
+        return null;
+      }
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function setCachedProjects(data) {
+    try {
+      localStorage.setItem(GH_CACHE_KEY, JSON.stringify({
+        data,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      console.warn("Could not cache projects");
+    }
   }
 
   function initContactForm() {
@@ -414,6 +479,14 @@
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
+      const now = Date.now();
+      
+      // Rate limiting - evitar spam
+      if (now - lastFormSubmitTime < FORM_SUBMIT_TIMEOUT) {
+        return;
+      }
+      lastFormSubmitTime = now;
+
       const name = qs("#name")?.value.trim() || "";
       const email = qs("#email")?.value.trim() || "";
       const subject = qs("#subject")?.value.trim() || "";
@@ -547,11 +620,31 @@
     const setActive = (nextIndex) => {
       dots.forEach((dot) => dot.classList.remove("active"));
       dots[nextIndex].classList.add("active");
+      dots[nextIndex].setAttribute("aria-selected", "true");
+      dots.forEach((dot, i) => {
+        if (i !== nextIndex) dot.setAttribute("aria-selected", "false");
+      });
       index = nextIndex;
     };
 
     dots.forEach((dot, dotIndex) => {
       dot.addEventListener("click", () => setActive(dotIndex));
+      // Acessibilidade por teclado
+      dot.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+          e.preventDefault();
+          setActive((dotIndex + 1) % dots.length);
+        } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+          e.preventDefault();
+          setActive((dotIndex - 1 + dots.length) % dots.length);
+        } else if (e.key === "Home") {
+          e.preventDefault();
+          setActive(0);
+        } else if (e.key === "End") {
+          e.preventDefault();
+          setActive(dots.length - 1);
+        }
+      });
     });
 
     setInterval(() => {
@@ -563,11 +656,12 @@
   function initParallax() {
     const hero = qs(".hero-inner");
     if (!hero) return;
-    window.addEventListener("pointermove", (event) => {
+    const handleMove = throttle((event) => {
       const x = (event.clientX / window.innerWidth - 0.5) * 6;
       const y = (event.clientY / window.innerHeight - 0.5) * 6;
       hero.style.transform = `translate(${x}px, ${y}px)`;
-    });
+    }, 16); // ~60fps
+    window.addEventListener("pointermove", handleMove);
   }
 
   function initSmoothScroll() {
@@ -597,7 +691,9 @@
         }
       });
     };
-    window.addEventListener("scroll", setActive);
+    // Use throttle para performance em scroll
+    const throttledSetActive = throttle(setActive, 100);
+    window.addEventListener("scroll", throttledSetActive);
     setActive();
   }
 
