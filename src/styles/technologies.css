@@ -1,0 +1,108 @@
+.technology-band {
+  position: relative;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding-block: 10px;
+}
+.technology-window {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  container-type: inline-size;
+  mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+}
+.technology-track {
+  display: flex;
+  width: max-content;
+  animation: technology-travel 36s linear infinite;
+}
+.technology-group {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: space-around;
+  align-items: center;
+  width: max(100cqw, 880px);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.technology-item {
+  display: grid;
+  place-items: center;
+  position: relative;
+  width: 100px;
+  height: 92px;
+}
+.technology-item img {
+  display: block;
+  object-fit: contain;
+  opacity: 1;
+  transition:
+    opacity 0.2s,
+    transform 0.3s;
+}
+.technology-item span {
+  position: absolute;
+  bottom: 2px;
+  font-size: 10px;
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.technology-item:hover img {
+  opacity: 1;
+  transform: translateY(-5px);
+}
+.technology-item:hover span {
+  opacity: 1;
+}
+.technology-band:hover .technology-track,
+.technology-band:focus-within .technology-track {
+  animation-play-state: paused;
+}
+@keyframes technology-travel {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (max-width: 640px) {
+  .technology-band {
+    gap: 10px;
+  }
+  .technology-group {
+    width: 720px;
+  }
+  .technology-item {
+    height: 82px;
+    width: 90px;
+  }
+  .technology-item img {
+    width: 34px;
+    height: 34px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .technology-track {
+    animation: none;
+    width: 100%;
+  }
+  .technology-window {
+    mask-image: none;
+  }
+  .technology-group {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .technology-group[aria-hidden='true'] {
+    display: none;
+  }
+  .technology-item {
+    width: 84px;
+  }
+  .technology-item span {
+    opacity: 1;
+  }
+}

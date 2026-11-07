@@ -1,0 +1,51 @@
+.experience-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 80px;
+}
+.timeline {
+  padding-left: 22px;
+  border-left: 1px solid var(--line);
+}
+.timeline-item {
+  position: relative;
+  padding: 0 0 34px 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+.timeline-item:last-child {
+  border: 0;
+  margin: 0;
+  padding-bottom: 0;
+}
+.timeline-dot {
+  position: absolute;
+  left: -28px;
+  top: 5px;
+  width: 11px;
+  height: 11px;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 0 5px var(--bg);
+}
+.timeline-date {
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+}
+.timeline-item h3 {
+  font-family: var(--display);
+  font-size: 32px;
+  font-weight: 600;
+  margin: 12px 0 5px;
+}
+.timeline-role {
+  font-size: 13px;
+  color: var(--accent);
+}
+.timeline-item p {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 12px 0 0;
+}

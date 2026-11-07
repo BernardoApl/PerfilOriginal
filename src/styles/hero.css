@@ -1,0 +1,213 @@
+.hero-stage {
+  position: relative;
+  overflow: clip;
+  isolation: isolate;
+}
+.hero-stage::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 70%;
+  height: 80%;
+  top: -10%;
+  right: -25%;
+  background: radial-gradient(ellipse, var(--accent-soft), transparent 68%);
+  pointer-events: none;
+}
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.18fr 1fr;
+  align-items: center;
+  gap: 48px;
+  padding-block: 64px 55px;
+}
+.hero::before,
+.hero::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-color: var(--accent);
+  border-style: solid;
+  pointer-events: none;
+  opacity: 0.7;
+}
+.hero::before {
+  top: 28px;
+  left: -22px;
+  border-width: 1px 0 0 1px;
+}
+.hero::after {
+  bottom: 32px;
+  right: -22px;
+  border-width: 0 1px 1px 0;
+}
+.hero-copy {
+  position: relative;
+  z-index: 2;
+}
+.hero h1 {
+  font-family: var(--display);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(90px, 10.6vw, 154px);
+  line-height: 0.86;
+  letter-spacing: -3px;
+  margin-bottom: 32px;
+}
+.hero h1 span {
+  color: var(--accent);
+}
+.hero-role {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(24px, 2.45vw, 34px);
+  line-height: 1.18;
+  color: var(--text);
+  white-space: pre-line;
+  margin-bottom: 22px;
+}
+.hero-intro {
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 430px;
+  margin-bottom: 30px;
+}
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.portrait-scene {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  justify-self: end;
+  padding: 12px;
+}
+.portrait-scene::before {
+  content: '';
+  position: absolute;
+  inset: 15% -6% -8%;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse at 75% 75%,
+    color-mix(in srgb, var(--accent) 14%, transparent),
+    transparent 62%
+  );
+  filter: blur(30px);
+}
+.portrait {
+  position: relative;
+  overflow: hidden;
+  background: #151515;
+  border: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
+  border-radius: 50%;
+  box-shadow: 0 24px 64px #0003;
+}
+.portrait-scene::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (min-width: 1500px) {
+  .hero {
+    padding-block: 80px 70px;
+  }
+}
+@media (max-width: 1100px) {
+  .hero {
+    gap: 30px;
+  }
+  .hero h1 {
+    font-size: clamp(86px, 11vw, 128px);
+  }
+  .hero-role {
+    font-size: 29px;
+  }
+}
+@media (max-width: 900px) {
+  .hero {
+    gap: 26px;
+    padding-block: 56px 44px;
+  }
+  .hero h1 {
+    font-size: 92px;
+  }
+  .hero-role {
+    font-size: 26px;
+  }
+  .hero-actions .button {
+    font-size: 12px;
+    padding: 12px 14px;
+    gap: 10px;
+  }
+}
+@media (max-width: 640px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding-block: 44px 24px;
+  }
+  .hero::before {
+    top: 20px;
+    left: -8px;
+    width: 10px;
+    height: 10px;
+  }
+  .hero::after {
+    right: -8px;
+    bottom: 20px;
+    width: 10px;
+    height: 10px;
+  }
+  .hero h1 {
+    font-size: clamp(84px, 23vw, 130px);
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+  }
+  .hero-role {
+    font-size: 29px;
+  }
+  .hero-intro {
+    font-size: 14px;
+  }
+  .portrait-scene {
+    max-width: 380px;
+    justify-self: center;
+    padding: 10px;
+    margin-top: 10px;
+  }
+  .portrait {
+    margin-inline: auto;
+  }
+}
+@media (max-width: 360px) {
+  .hero h1 {
+    font-size: 82px;
+  }
+  .hero-role {
+    font-size: 26px;
+  }
+  .hero-actions {
+    gap: 10px;
+  }
+  .hero-actions .button {
+    font-size: 11px;
+    padding: 12px;
+    gap: 8px;
+  }
+}
